@@ -1,0 +1,16 @@
+{
+  "name": "vfiee",
+  "version": "1.0.0",
+  "description": "blog",
+  "main": "index.js",
+  "author": "vyron<fiee_vyron@163.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "npx vuepress dev docs",
+    "build": "npx vuepress build docs"
+  },
+  "devDependencies": {
+    "vuepress": "^1.0.3"
+  }
+}
