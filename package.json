@@ -11,6 +11,7 @@
     "build": "npx vuepress build docs"
   },
   "devDependencies": {
-    "vuepress": "^1.0.3"
+    "npx": "^10.2.0",
+    "vuepress": "^1.1.0"
   }
 }

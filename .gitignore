@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .vuepress/
-.*/
 .DS_Store
+*/.DS_Store
 yarn.lock
+yarn-error.log
