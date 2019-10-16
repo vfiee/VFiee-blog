@@ -1,5 +1,6 @@
 module.exports = {
     dest: 'dist',
+    base: '/blog/',
     title: "Vyron",
     description: "Stay hungry, Stay foolish",
     themeConfig: {
