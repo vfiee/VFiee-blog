@@ -1,32 +1,20 @@
+const {
+    baseCof,
+    themeCof,
+    markdownCof,
+} = require('./config/');
+
 module.exports = {
+    locales: baseCof,
+    markdown: markdownCof,
+    themeConfig: themeCof,
     dest: 'dist',
     base: '/blog/',
     title: "Vyron",
-    description: "Stay hungry, Stay foolish",
-    themeConfig: {
-        searchMaxSuggestions: 6,
-        nav: [
-            {
-                text: 'JavaScript',
-                items: [
-                    { text: '面试', link: '/javascript/interview/concept-explain' },
-                    { text: '设计模式', link: '/javascript/design-pattern/' },
-                    { text: '正则表达式', link: '/javascript/regular-express/' },
-                ]
-            },
-            {
-                text: 'Flutter',
-                items: [
-                    { text: '环境搭建', link: '/flutter/set-up/' },
-                ]
-            },
-            { text: 'GitHub', link: 'https://github.com/VFiee' },
-        ],
-        sidebar: {
-            "/javascript/interview/": [
-                "concept-explain",
-                "archieve-methods",
-            ]
-        }
-    }
-}
+    description: "blog,bavascript,dart,flutter,vfiee",
+    // Stay hungry, Stay foolish.
+    // 学会选择,懂得放弃,耐得住寂寞,禁得起诱惑.
+    head: [
+        ['link', { rel: 'icon', href: `/logo.png` }],
+    ],
+};

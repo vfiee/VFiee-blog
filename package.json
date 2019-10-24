@@ -13,5 +13,11 @@
   "devDependencies": {
     "npx": "^10.2.0",
     "vuepress": "^1.1.0"
+  },
+  "dependencies": {
+    "@vuepress/plugin-active-header-links": "^1.2.0",
+    "@vuepress/plugin-back-to-top": "^1.2.0",
+    "@vuepress/plugin-nprogress": "^1.2.0",
+    "vuepress-plugin-container": "^2.1.0"
   }
 }
