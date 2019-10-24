@@ -1,3 +1,7 @@
+---
+sidebar: false
+---
+
 **Stay hungry, Stay foolish.**
 
 
