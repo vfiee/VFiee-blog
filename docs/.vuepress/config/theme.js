@@ -1,6 +1,6 @@
 module.exports = {
-    sidebar: 'auto',
     smoothScroll: true,
+    displayAllHeaders: true,
     searchMaxSuggestions: 6,
     lastUpdated: "最近更新时间",
     repo: "https://github.com/VFiee/VFiee-blog",
@@ -20,4 +20,24 @@ module.exports = {
             ]
         },
     ],
+    sidebar: {
+        "/javascript/": [
+            {
+                title: 'JavaScript',
+                children: [
+                    '/javascript/review/',
+                    '/javascript/design-pattern/',
+                    '/javascript/regular-express/'
+                ]
+            }
+        ],
+        "/flutter/": [
+            {
+                title: "Flutter",
+                children: [
+                    '/flutter/set-up/',
+                ]
+            }
+        ]
+    }
 };
