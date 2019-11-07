@@ -1,101 +1,19 @@
----
-# sidebarDepth: 3
----
-
-# 基础回顾
-## 数据类型
-
-最新的 ECMAScript 标准定义了 8 种数据类型:
-
-    7种原始类型:
-        Boolean
-        Null
-        Undefined
-        Number
-        BigInt
-        String
-        Symbol 
-    
-    Object(引用类型):
-        Object
-        Array
-        RegExp
-        Date
-        Math
-        Function
-
-> 在计算机科学中, 对象是指内存中的可以被标识符引用的一块区域.
-
-
-## 数据类型的判断
-
-```js
-// 原始类型
-let bol = true;
-// typeof bol = "boolean"
-let nul = null;
-// typeof nul = "object"
-let undefine;
-// typeof undefine = "undefined"
-let number = 1024;
-// typeof number = "number"
-let bigInt = 3141592653589793238462643383279n;
-// typeof bigInt = "bigint"
-let str = "string";
-// typeof str = "string";
-let symbol = Symbol('symbol');
-// typeof symbol = "symbol"
-
-// 引用类型
-// RegExp Date Math Function Set WeakSet Map WeakMap 都是Javascript(内置的)函数
-let obj = {}; 
-// typeof obj = "object"
-// obj instanceof Object = true
-let arr = [];
-// typeof arr = "object"
-// arr instanceof Array = true
-let reg = /[a-zA-z0-0_]/;
-// reg instanceof RegExp = true
-let func = function(){};
-// func instanceof Function = true
-```
-::: warning 注意
-typeof null = "object" 是Javascript历史悠久的一个bug~
-:::
-::: tip 总结:
-使用 **typeof** 检查除null以外的原始类型,使用 **instanceof** 检查引用类型.
-:::
-
-## 数据之间的转换
-Javascript中的类型转换包含三种  
-1.转成数字  
-2.转成布尔值  
-3.转成字符串  
-
-
-<div align="center" >
-  <img src="../../../assets/images/trans.jpg">
-</div>
-
->  图片来源 **[神三元](https://juejin.im/post/5dac5d82e51d45249850cd20)**
-
-
-## 数组 Array
+# 数组 Array
 
 ### from
 ```js
+// Array.from(arrayLike[, mapFn[, thisArg]])
 // Array.from() 方法从一个类似数组或可迭代对象创建一个新的，浅拷贝的数组实例。
 let obj = {num:3};
 let arr = [1,2,3];
 let arr2 = Array.from(arr,x=>x*x);
-let arr3 = Array.from(arr,function(x){
-  return x*this.num;
-},obj);
+let arr3 = Array.from(arr,(x)=>x*this.num,obj);
 
 ```
 
 ### isArray
 ```js
+// Array.isArray(obj)
 // Array.isArray() 用于确定传递的值是否是一个 Array
 Array.isArray(true);
 // false
@@ -111,27 +29,37 @@ Array.isArray({x:'num'});
 
 ### of
 ```js
+// Array.of(element0[, element1[, ...[, elementN]]])
 // Array.of() 方法创建一个具有可变数量参数的新数组实例，而不考虑参数的数量或类型。
 Array.of(3);
 // [3]
+Array.of(1,2,3);
+// [1,2,3]
 
 Array(3);
 // [ , , ,];
+Array(1,2,3)
+// [1,2,3]
 ```
 
 ### concat
 ```js
-//  concat() 方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。
+// let new_array = old_array.concat(value1[, value2[, ...[, valueN]]])
+// concat() 方法用于合并两个或多个数组或值(不改变原数组并返回新数组)。
 let arr1 = [1,2,3];
 let arr2 = [4,5,6];
 let arr3 = [].concat(arr1,arr2);
-//[1,2,3,4,5,6];
+// [1,2,3,4,5,6];
+// arr1 [1,2,3]
+// arr2 [4,5,6]
 ```
 
 ### copyWithin
 ```js
-// copyWithin() 方法浅复制数组的一部分到同一数组中的另一个位置，并返回它，不会改变原数组的长度。
+// arr.copyWithin(target[, start[, end]])
+// copyWithin() 方法浅复制原数组的一部分到同一数组中的另一个位置,保持原数组的长度。
 let num = [1, 2, 3, 4, 5];
+// 以下方法同样以num=[1,2,3,4,5]为例
 
 num.copyWithin(-2);
 // [1, 2, 3, 1, 2]
@@ -146,26 +74,51 @@ num.copyWithin(-2, -3, -1);
 // [1, 2, 3, 3, 4]
 ```
 
-### entries
+### key  values  sentries 
 ```js
+// arr.keys() arr.values()  arr.entries()
+// keys() 方法返回一个包含数组中每个索引键的Array Iterator对象。
+// values() 方法返回一个新的 Array Iterator 对象，该对象包含数组每个索引的值
 // entries() 方法返回一个新的Array Iterator对象，该对象包含数组中每个索引的键/值对。
-var arr = ["a", "b", "c"];
-var iterator = arr.entries();
-for (let i of iterator) {
+let arr = ['a', 'b', 'c'];
+for (let key of arr.keys()) {
+  console.log(key);
+}
+// 0
+// 1
+// 2
+
+for (let value of arr.values()) {
+  console.log(value); 
+}
+// a
+// b
+// c
+
+
+for (let i of arr.entries()) {
   console.log(i);
 }
+// [0, "a"]
+// [1, "b"]
+// [2, "c"]
 ```
 
 ### every
 ```js
-//every() 方法测试一个数组内的所有元素是否都能通过某个指定函数的测试。它返回一个布尔值。
+// arr.every(callback(element[, index][, array]),[, thisArg])
+// every() 方法测试一个数组内的所有元素是否都能通过某个指定函数的测试(返回Boolean)。
 let arr = [1,2,3,4,5,6,7];
-arr.every(x=>(x<10));
+arr.every(x=>(x>5));
+// false
+arr.every(x=>(x<10>));
 // true
 ```
+
 ### some
 ```js
-// some() 方法测试数组中是不是至少有1个元素通过了被提供的函数测试。它返回的是一个Boolean类型的值。
+// arr.some(callback(element[, index[, array]])[, thisArg])
+// some() 方法测试数组中是不是至少有1个元素通过了被提供的函数测试(返回Boolean)。
 let arr = [1,2,3,4,5,6,7];
 arr.some(x=>(x>=7));
 // true
@@ -173,7 +126,8 @@ arr.some(x=>(x>=7));
 
 ### fill
 ```js
-// fill() 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。不包括终止索引。
+// arr.fill(value[, start=0[, end=arr.length]])
+// fill() 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素(不修改数组的长度)。
 [1,2,3,4].fill(1);
 // [1,1,1,1]
 [1,2,3,4].fill(1,2);
@@ -184,6 +138,7 @@ arr.some(x=>(x>=7));
 
 ### filter
 ```js
+// let newArray = arr.filter(callback(element[, index[, array]])[, thisArg])
 // filter() 方法创建一个新数组, 其包含通过所提供函数实现的测试的所有元素。 
 let arr = [1,true,undefined,null,{},[]];
 arr.filter(item=>!!item);
@@ -192,7 +147,8 @@ arr.filter(item=>!!item);
 
 ### find
 ```js
-// find() 方法返回数组中满足提供的测试函数的第一个元素的值
+// arr.find(callback(element[, index[, array]]),[, thisArg])
+// find() 方法返回数组中满足提供的测试函数的第一个元素的值或undefined
 let arr = [
   {num:1},
   {num:2},
@@ -204,6 +160,7 @@ arr.find((item)=>(item.num>=2));
 
 ### findIndex
 ```js
+// arr.findIndex(callback(element[, index[, array]]),[, thisArg])
 // findIndex()方法返回数组中满足提供的测试函数的第一个元素的索引。否则返回-1。
 let arr = [1,true,undefined,null,{},[]];
 arr.findIndex(item=>item===null);
@@ -211,7 +168,9 @@ arr.findIndex(item=>item===null);
 ```
 ### flat
 ```js
+// let newArray = arr.flat([depth])
 // flat() 方法会按照一个可指定的深度递归遍历数组，并将所有元素与遍历到的子数组中的元素合并为一个新数组返回。
+// flat() 会移除数组中的空项
 let arr = [1,2,[3,4,5]];
 let arr1 = ['a','b',[['c',['d','e']]]];
 arr.flat();
@@ -228,8 +187,10 @@ arr1.flat(Infinity);
 
 ### flatMap
 ```js
-// flatMap() 方法首先使用映射函数映射每个元素，然后将结果压缩成一个新数组。
-// 相当于执行map方法后再执行一次flat
+// var new_array = arr.flatMap(function callback(currentValue[, index[, array]]) {
+//    返回新数组的元素
+// }[, thisArg])
+// flatMap() 方法首先使用映射函数映射每个元素，然后将结果压缩成一个新数组。相当于执行map方法后再执行一次flat
 let arr = [1, 2, 3, 4];
 arr.map(x => [x * 2]); 
 // [[2], [4], [6], [8]]
@@ -242,8 +203,9 @@ arr1.flatMap(x => [[x * 2]]);
 
 ### forEach
 ```js
+// arr.forEach(callback(element[, index[, array]]),[, thisArg]);
 // forEach() 方法对数组的每个元素执行一次提供的函数
-// 没有办法中止或者跳出 forEach() 循环，除了抛出一个异常
+// 没有办法中止或者跳出 forEach() 循环，除非抛出一个异常
 let arr = ['a','b','c'];
 arr.forEach(item=>console.log(item));
 
@@ -251,7 +213,8 @@ arr.forEach(item=>console.log(item));
 
 ### includes
 ```js
-// includes() 方法用来判断一个数组是否包含一个指定的值
+// arr.includes(valueToFind[, fromIndex=0])
+// includes() 方法用来判断一个数组是否包含一个指定的值(返回Boolean)
 let arr = ["Cat","Dog","Bat"];
 arr.includes("Cat");
 // true
@@ -261,6 +224,7 @@ arr.includes('cat');
 
 ### indexOf
 ```js
+// arr.indexOf(searchElement[, fromIndex=0])
 // indexOf()方法返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1。
 let arr = ['ant', 'bison', 'camel', 'duck'];
 arr.indexOf('bison');
@@ -280,6 +244,7 @@ arr.lastIndexOf('bison', 2);
 
 ### join
 ```js
+// arr.join([separator=','])
 // join() 方法将一个数组（或一个类数组对象）的所有元素连接成一个字符串并返回这个字符串
 let arr = ["Cat","Dog","Bat"];
 arr.join();
@@ -288,37 +253,12 @@ arr.join("");
 arr.join("_");
 ```
 
-### keys
-```js
-//  keys() 方法返回一个包含数组中每个索引键的Array Iterator对象。
-let arr = ['a', 'b', 'c'];
-for (let key of arr.keys()) {
-  console.log(key);
-}
-// 0
-// 1
-// 2
-[...arr.keys()];
-// [0,1,2]
-```
-
-### values
-```js
-// values() 方法返回一个新的 Array Iterator 对象，该对象包含数组每个索引的值
-let arr = ['a', 'b', 'c'];
-for (let value of arr.values()) {
-  console.log(value); 
-}
-// a
-// b
-// c
-[...arr.values()];
-// ["a","b","c"]
-```
-
 
 ### map
 ```js
+// let new_array = arr.map(function callback(currentValue[, index[, array]]) {
+//     Return element for new_array 
+// }[, thisArg])
 // map() 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。
 let arr = [1,2,3,4];
 let result = arr.map(item=>Math.pow(item,2));
@@ -327,6 +267,7 @@ let result = arr.map(item=>Math.pow(item,2));
 
 ### pop
 ```js
+// arr.pop()
 // pop()方法从数组中删除最后一个元素，并返回该元素的值。此方法更改数组的长度。
 // 返回删除元素的下标
 let arr = [1,2,3,4];
@@ -337,6 +278,7 @@ arr.pop();
 
 ### push
 ```js
+// arr.push(element1, ..., elementN)
 // push() 方法将一个或多个元素添加到数组的末尾，并返回该数组的新长度。
 let arr = [1,2,3,4];
 arr.push(5,6,7,8);
@@ -345,6 +287,7 @@ arr.push(5,6,7,8);
 ```
 ### shift
 ```js
+// arr.shift()
 // shift() 方法从数组中删除第一个元素，并返回该元素的值。此方法更改数组的长度。
 // 返回删除元素的下标
 let arr = [1,2,3,4];
@@ -354,6 +297,7 @@ arr.shift();
 ```
 ### unshift
 ```js
+// arr.unshift(element1, ..., elementN)
 // unshift() 方法将一个或多个元素添加到数组的开头，并返回该数组的新长度(该方法修改原有数组)。
 let arr = [1,2,3,4];
 arr.unshift(5,6,7,8);
@@ -363,6 +307,7 @@ arr.unshift(5,6,7,8);
 
 ### reduce
 ```js
+// arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])
 // reduce() 方法对数组中的每个元素执行一个由您提供的reducer函数(升序执行)，将其结果汇总为单个返回值。
 let arr = [5,6,7,8];
 let result = arr.reduce((result,value,index)=>{
@@ -374,6 +319,8 @@ let result = arr.reduce((result,value,index)=>{
 
 ### reduceRight
 ```js
+// arr.reduceRight(callback(accumulator, currentValue[, index[, array]])[, initialValue])
+// reduceRight() 方法接受一个函数作为累加器（accumulator）和数组的每个值（从右到左）将其减少为单个值。
 let arr = [5,6,7,8];
 let result = arr.reduceRight((result,value,index)=>{
   result.push(value);
@@ -384,7 +331,8 @@ let result = arr.reduceRight((result,value,index)=>{
 
 ### reverse
 ```js
-// reverse() 方法将数组中元素的位置颠倒，并返回该数组。返回更改后的数组
+// arr.reverse()
+// reverse() 方法将数组中元素的位置颠倒，并返回该数组.
 let arr = [1,2,3,4];
 arr.reverse();
 // [4,3,2,1]
@@ -392,6 +340,7 @@ arr.reverse();
 
 ### slice
 ```js
+// arr.slice([begin[, end]])
 // slice() 方法返回一个新的数组对象，这一对象是一个由 begin 和 end 决定的原数组的浅拷贝（包括 begin，不包括end）
 let arr = [1,2,3,4];
 arr.slice();
@@ -402,7 +351,14 @@ arr.slice(0,2);
 
 ### sort
 ```js
+// arr.sort([compareFunction(firstEl[,secondEl])])
 // sort() 方法用原地算法对数组的元素进行排序，并返回数组。默认排序顺序是在将元素转换为字符串，然后比较它们的UTF-16代码单元值序列时构建的
+/*
+如果 compareFunction(a, b) 小于 0 ，那么 a 会被排列到 b 之前；
+如果 compareFunction(a, b) 等于 0 ， a 和 b 的相对位置不变。
+备注： ECMAScript 标准并不保证这一行为，而且也不是所有浏览器都会遵守（例如 Mozilla 在 2003 年之前的版本）
+如果 compareFunction(a, b) 大于 0 ， b 会被排列到 a 之前。
+*/
 let arr = [
   { name: 'Edward', value: 0 },
   { name: 'The', value: 3 },
@@ -436,6 +392,7 @@ arr.sort((a,b)=>(a.value===b.value?0:a.value>b.value?1:-1));
 
 ### splice
 ```js
+// array.splice(start[, deleteCount[, item1[, item2[, ...]]]])
 // splice() 方法通过删除或替换现有元素或者原地添加新的元素来修改数组,并以数组形式返回被修改的内容。此方法会改变原数组。
 // 语法:array.splice(startIndex[, deleteCount[, addItem1[, addItem2[, ...]]]])
 let arr = ['Jan', 'Feb', 'March', 'April', 'June'];
@@ -460,108 +417,3 @@ arr.splice(1,1,"Alipay");
 // arr ['Jan', 'Alipay', 'March', 'April', 'June']
 ```
 
-
-## 对象 Object
-```js
-/*
-  构造函数,原型和实例的关系
-  !!!!! 1.每个构造函数(constructor)都有一个原型对象(prototype),原型对象都包含一个指向构造函数的指针
-        2.构造函数实例(instance)都包含一个指向原型对象的内部指针__proto__
-        3.每个构造函数都有一个指向构造该构造函数(构造函数的构造函数)原型对象的内部指针__proto__
-  constructor  指向构造函数
-  __proto__    指向构造函数的原型对象(每个构造函数实例所有的属性,指向构造函数constructor的prototype属性)
-  prototype    构造函数constructor的属性prototype
-*/
-
-```
-### assign
-```js
-// Object.assign() 方法用于将所有可枚举属性的值从一个或多个源对象复制到目标对象
-
-// 复制对象
-let obj ={x:1,y:2};
-let copyObj = Object.assign({},obj);
-// {x:1,y:2};
-
-// 合并对象
-let obj2 = {y:3,z:4};
-let combineObj = Object.assign({},obj,obj2);
-// {x: 1, y: 3, z: 4}
-```
-
-### create
-```js
-// Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__
-let person = {
-  sayName:function(){
-    console.log(`My name is ${this.name}`);
-  }
-};
-
-let LiMing = Object.create(person);
-let XiaoHua = {};
-console.log(LiMing.__proto__)
-console.log(XiaoHua.__proto__);
-```
-### keys values  entries
-```js
-// Object.keys() 方法会返回一个由一个给定对象的自身可枚举属性组成的数组
-// Object.values()方法返回一个给定对象自身的所有可枚举属性值的数组
-// Object.entries()方法返回一个给定对象自身可枚举属性的键值对数组
-let obj = {x:1,y:2,z:3};
-let keys = Object.keys(obj);
-// ["x", "y", "z"]
-let values = Object.values(obj);
-// [1, 2, 3]
-let kvs = Object.entries(obj);
-// [["x":1],["y":2],["z",3]]
-```
-
-### freeze
-```js
-// Object.freeze() 冻结一个对象的属性和原型.
-// 一个对象是冻结的是指它不可扩展，所有属性都是不可配置的，且所有数据属性（即没有getter或setter组件的访问器的属性）都是不可写的。
-let obj = {x:1};
-let frozenObj = Object.freeze(obj);
-obj.x=2;
-```
-
-### isFrozen
-```js
-// Object.isFrozen()方法判断一个对象是否被冻结。
-let obj = {};
-let frozenObj = Object.freeze(obj);
-let isF = Object.isFrozen(obj);
-
-```
-
-### is
-
-
-### isExtensible
-
-
-### isSealed
-
-
-### preventExtensions
-
-
-### seal
-
-
-### setPrototypeOf
-
-
-### Object.hasOwnProperty
-
-
-### Object.isPrototypeOf
-
-### Object.toString
-
-
-### Object.toLocalString
-
-
-### Object.valueOf

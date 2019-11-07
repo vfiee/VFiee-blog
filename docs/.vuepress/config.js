@@ -2,12 +2,14 @@ const {
     baseCof,
     themeCof,
     markdownCof,
+    webpackCof
 } = require('./config/');
 
 module.exports = {
     locales: baseCof,
     markdown: markdownCof,
     themeConfig: themeCof,
+    configureWebpack: webpackCof,
     dest: 'dist',
     base: '/blog/',
     title: "Vyron",
