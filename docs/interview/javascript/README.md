@@ -8,43 +8,80 @@
 Javascript数据类型有两种:基本类型和引用类型  
 基本类型:Boolean Null Undefined String Number Symbol BigInt  
 引用类型:Object Array Function Date ...  
-
+::: tip 提示
 堆内存保存引用类型的值.  
-栈内存保存基本类型的值和引用类型的指针.  
+栈内存保存基本类型的值和引用类型的指针. 
+:::
+ 
 
 ### 说一下你工作中常用的ES6
 解构赋值  
 扩展运算符  
-Promise  
-let const  
-async await  
-import export  
-
-String [includes]  
-Number [isFinite isNaN parseInt parseFloat isInteger]  
-Array [from find findIndex keys values entries includes flat flatMap]  
-Object [is assign keys values entries fromEntries]  
-Function [  
-    箭头函数  
-    默认参数  
-    rest参数  
-]  
+```Promise```  
+```let const```  
+```async await```    
+```import export```  
+```String [String]```  
+```Number [isFinite isNaN parseInt parseFloat isInteger]```  
+```Array [from find findIndex keys values entries includes flat flatMap]```  
+```Object [is assign keys values entries fromEntries]```  
+```Function [ 箭头函数 默认参数 rest参数 ]```  
 
 
 ### 请描述一下ES6中Set,Map,WeakSet,WeakMap,Symbol?
-```js
-// Symbol
-Symbol是一种原始数据类型.
-Symbol函数生成的值都是独一无二的.
-Symbol函数接受字符串作为参数,如果传的是对象,将调用其toString方法.
-Symbol值不能与其他类型的值进行运算.
-Symbol可以转为String和Boolean,无法转成Number.
-Symbol值作为对象属性名时,不能使用点运算符.
-Symbol作为属性名,该属性不会出现在for...in、for...of循环中，也不会被Object.keys()、Object.getOwnPropertyNames()、JSON.stringify()返回.
-Object.getOwnPropertySymbols()可以获取目标对象所有 Symbol 属性名。Reflect.ownKeys()方法可以返回所有类型的键名，包括常规键名和 Symbol 键名。
 
-```
+Symbol可以保证对象的每个属性名都是独一无二的,避免了为新对象添加方法时key名称相同;
+Symbol是一种原始数据类型.  
+Symbol函数生成的值都是独一无二的.  
+Symbol函数接受字符串作为参数,如果传的是对象,将调用其toString方法.  
+Symbol值不能与其他类型的值进行运算.  
+Symbol可以转为String和Boolean,无法转成Number.  
+Symbol值作为对象属性名时,访问时不能使用点运算符.  
+Symbol作为属性名,该属性不会出现在```for...in```、```for...of```循环中，也不会被```Object.keys()```、```Object.getOwnPropertyNames()```、```JSON.stringify()```返回.  
+```Object.getOwnPropertySymbols()```可以获取目标对象所有 Symbol 属性名。  
+```Reflect.ownKeys()```方法可以返回所有类型的键名，包括常规键名和 Symbol 键名。  
+```Symbol.keyFor()``` 方法返回以key命名的且注册的Symbol类型的值,没有则返回undefined。  
+```Symbol.for(key)``` 搜索全局有没有以key命名的Symbol值,如果有则返回,没有则新建并注册到全局.  
 
+
+Set     对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用  
+WeakSet 对象允许你将[弱保持对象]存储在一个集合中。  
+::: tip Set和WeakSet的区别
+WeakSet 对象中只能存放对象引用, 不能存放值, 而 Set 对象都可以.  
+WeakSet 对象中存储的对象值都是被弱引用的, 如果没有其他的变量或属性引用这个对象值, 则这个对象值会被当成垃圾回收掉. 
+:::
+
+```Set.size``` 返回当前set实例的成员总数;  
+```Set/WeakSet.add(value)``` 添加value,返回set本身  
+```Set/WeakSet.delete(value)``` 删除value,返回Boolean表示是否删除成功.  
+```Set/WeakSet.has(value)``` 判断set实例是否含有value成员,返回Boolean表示是否是Set成员.  
+```Set/WeakSet.clear()``` 清除所有成员;  
+```Set.keys()``` 返回set键名的遍历器;  
+```Set.values()``` 返回键值的遍历器;  
+```Set.entries()``` 返回键值对的遍历器;  
+```Set.forEach(callbackFn([value,key,set]),[,thisArgs])``` 使用回调函数遍历每个成员;  
+
+Map 对象保存键值对。任何值(对象或者原始值) 都可以作为一个键或一个值。  
+WeakMap 对象是一组键值对的集合，其中的键是弱引用的。其键必须是对象，而值可以是任意的。
+::: tip  Map与Object的区别
+一个Object的键只能是字符串或者 Symbols，但一个 Map 的键可以是任意值，包括函数、对象、基本类型。   
+Map 中的键值是有序的，而添加到对象中的键则不是。  
+Map的size属性表示Map的键值对个数,而Object键值个数需要计算.  
+Map 可直接进行迭代，而 Object 的迭代需要先获取它的键数组，然后再进行迭代。  
+Map 在涉及频繁增删键值对的场景下会有些性能优势.  
+Object 都有自己的原型，原型链上的键名有可能和你在对象上的设置的键名产生冲突。
+:::
+
+```Map.size``` Map对象的键值对的数量。 
+```Map/WeakMap.set(key,value)``` 设置Map对象中键的值并返回该Map对象  
+```Map/WeakMap.get(key)```  返回键对应的值，如果不存在，则返回undefined。  
+```Map/WeakMap.delete(key)```  如果 Map 对象中存在该元素，则移除它并返回 true；否则如果该元素不存在则返回 false  
+```Map/WeakMap.has(key)```    返回一个布尔值，表示Map实例是否包含键对应的值。  
+```Map.clear()```     移除Map对象的所有键/值对 。  
+```Map.keys()```      返回一个新的 Iterator对象， 它按插入顺序包含了Map对象中每个元素的键 。  
+```Map.values()```    返回一个新的Iterator对象，它按插入顺序包含了Map对象中每个元素的值 。  
+```Map.entries()```   返回一个新的 Iterator 对象，它按插入顺序包含了Map对象中每个元素的 [key, value] 数组。  
+```Map.forEach(callbackFn([value,key,map]),[,thisARg])```     按插入顺序，为 Map对象里的每一键值对调用一次callbackFn函数。如果为forEach提供了thisArg，它将在每次回调中作为this值。  
 
 ### let const var之间的区别?
 一: var  
@@ -444,6 +481,21 @@ function onWindowNameChange(data) {
 ```
 
 ### 描述一下localstorage sessionStorage cookie以及他们之间的区别?
+生命周期:  
+cookie:可设置失效时间,不设置关闭浏览器后失效.   
+localStorage:除非手动清除,否则永久保存.  
+sessionStorage:仅在当前网页回话下有效,关闭网页或浏览器被清除.  
+
+数据大小限制:  
+cookie:4KB  
+localStorage: 微信2.5M  PC5M  
+sessionStorage: 微信unlimited  PC5M  
+**[测试Storage大小限制](http://dev-test.nemikor.com/web-storage/support-test/)**  
+
+网络请求:  
+cookie:每次网络请求都会携带在HTTP头部,携带过多数据会引发性能问题.  
+localStorage:不主动参与和服务器通信.  
+sessionStorage:不主动参与和服务器通信. 
 
 
 
@@ -720,7 +772,7 @@ function deepCopy(value) {
     let isArray = (array) => Object.prototype.toString.call(array)==='[object Array]';
     if(!isObject(value)) return value;
     // 处理循环引用
-    let set = new Set();
+    let set = new WeakSet();
     let cpFunc = (target)=>{
         let result = isArray(target) ? []:{};
         for(let key in target) {

@@ -1,10 +1,11 @@
+const moment = require('moment');
 module.exports = {
     smoothScroll: true,
+    expandAllGroup: false,
     displayAllHeaders: true,
     searchMaxSuggestions: 6,
     lastUpdated: "最近更新时间",
     repo: "https://github.com/VFiee/VFiee-blog",
-    expandAllGroup: false,
     nav: [
         {
             text: 'JavaScript',
