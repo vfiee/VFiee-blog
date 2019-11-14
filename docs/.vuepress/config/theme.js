@@ -1,4 +1,3 @@
-const moment = require('moment');
 module.exports = {
     smoothScroll: true,
     expandAllGroup: false,
