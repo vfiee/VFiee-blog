@@ -6,13 +6,13 @@ const {
 } = require('./config/');
 
 module.exports = {
+    dest: 'dist',
+    base: '/blog/',
+    title: "Vyron",
     locales: baseCof,
     markdown: markdownCof,
     themeConfig: themeCof,
     configureWebpack: webpackCof,
-    dest: 'dist',
-    base: '/blog/',
-    title: "Vyron",
     description: "blog,bavascript,dart,flutter,vfiee",
     // Stay hungry, Stay foolish.
     // 学会选择,懂得放弃,耐得住寂寞,禁得起诱惑.

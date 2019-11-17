@@ -148,6 +148,21 @@ JavaScript是单线程的语言
 Event Loop是javascript的执行机制  
 :::
 
+1. new Promise时，需要传递一个 executor 执行器，执行器立刻执行.  
+2. executor 接受两个参数，分别是 resolve 和 reject.  
+3. promise 只能从 pending 到 rejected, 或者从 pending 到 fulfilled.  
+4. promise 的状态一旦确认，就不会再改变.  
+5. promise 都有 then 方法，then 接收两个参数，分别是 promise 成功的回调 onFulfilled, 和 promise 失败的回调 onRejected.  
+6. 如果调用 then 时，promise已经成功，则执行 onFulfilled，并将promise的值作为参数传递进去。  
+   如果promise已经失败，那么执行 onRejected, 并将 promise 失败的原因作为参数传递进去。  
+   如果promise的状态是pending，需要将onFulfilled和onRejected函数存放起来，等待状态确定后，再依次将对应的函数执行(发布订阅)  
+7. then 的参数 onFulfilled 和 onRejected 可以缺省  
+8. promise 可以then多次，promise 的then 方法返回一个 promise  
+9. 如果 then 返回的是一个结果，那么就会把这个结果作为参数，传递给下一个then的成功的回调(onFulfilled)  
+10. 如果 then 中抛出了异常，那么就会把这个异常作为参数，传递给下一个then的失败的回调(onRejected)  
+11. 如果 then 返回的是一个promise,那么需要等这个promise，那么会等这个promise执行完，promise如果成功，  
+  就走下一个then的成功，如果失败，就走下一个then的失败  
+
 优点:  
 1.Promise对象的状态只有异步操作的结果可以决定.  
 2.一旦状态改变,不会再变.  
@@ -207,7 +222,7 @@ monitoring process:监控进程
 execution context stack：执行栈  
 task queue/callback queue：任务队列  
 micro-task：微任务(原生Promise,process.nextTick, MutationObserver)  
-macro-task：宏任务(包括整体代码script,setTimeout,setInterval,setImmediate。)  
+macro-task：宏任务(包括整体代码script,setTimeout,setInterval,setImmediate,I/O,UI rendering。)  
 :::
 1.JS是单线程的,上一个事件没有执行完成就不会执行下一个事件,所以异步函数由此诞生.  
 2.事件机制遇到同步函数,直接执行.遇到异步函数会区分异步函数类型并分别加入宏/微任务队列.  
@@ -826,4 +841,136 @@ function insertArr(num){
     }
     inserrtArr(getRandomInt(2,32));
 }
+```
+
+
+### 实现一个new运算符
+new 运算符创建一个用户定义的对象类型的实例或具有构造函数的内置对象的实例.  
+new进行了一下操作:  
+1.创建了一个空的对象.  
+2.设置空对象的构造函数.  
+3.将空对象作为this的上下文.  
+4.如果函数没有返回对象,则返回this.  
+
+```js
+function polyfillNew(fn) {
+  let obj = Object.create(fn.prototype);
+  let ret = fn.apply(obj,Array.prototype.slice.call(arguments,1));
+  return ret instanceof Object ? ret : obj;
+}
+
+function Person(name,sex){
+  this.name = name;
+  this.sex = sex;
+}
+
+let polyMing = polyfillNew(Person,"ming","男");
+console.log(polyMing);
+console.log(polyMing instanceof Person);
+
+let ming = new Person('ming','男');
+console.log(ming);
+console.log(ming instanceof Person);
+```
+
+
+### 实现一个JSON.stringify JSON.parse
+```js
+// 来源于MDN,并做了丢丢优化
+JSON.polyfillStringify = function(value) {
+  let toString = Object.prototype.toString;
+  let isArray =
+    Array.isArray ||
+    function(arr) {
+      return toString.call(arr) === "[object Array]";
+    };
+  let escMap = {
+    '"': '\\"',
+    "\\": "\\\\",
+    "\b": "\\b",
+    "\f": "\\f",
+    "\n": "\\n",
+    "\r": "\\r",
+    "\t": "\\t"
+  };
+  let escFunc = function(m) {
+    return (
+      escMap[m] || "\\u" + (m.charCodeAt(0) + 0x10000).toString(16).substr(1)
+    );
+  };
+  let escRE = /[\\"\u0000-\u001F\u2028\u2029]/g;
+  let isIgnore = value =>
+    value === void 0 ||
+    typeof value === "symbol" ||
+    toString.call(value) === "[object Function]";
+  let throwErr = () => {
+    throw new TypeError("Converting circular structure to JSON");
+  };
+  let wkSet = new WeakSet();
+  return function stringify(value) {
+    if (value === null) {
+      return "null";
+    } else if(isIgnore(value)) {
+      return void 0;
+    }else if (typeof value === "number") {
+      return isFinite(value) ? value.toString() : "null";
+    } else if (typeof value === "boolean") {
+      return value.toString();
+    } else if (typeof value === "object") {
+      if (typeof value.toJSON === "function") {
+        // 处理Date
+        wkSet.has(value) && throwErr();
+        wkSet.add(value);
+        return stringify(value.toJSON());
+      } else if (isArray(value)) {
+        // 处理数组
+        wkSet.has(value) && throwErr();
+        var res = "[";
+        for (var i = 0; i < value.length; i++) {
+          res +=
+            (i ? ", " : "") + (isIgnore(value[i]) ? null : stringify(value[i]));
+        }
+        wkSet.add(value);
+        return res + "]";
+      } else if (toString.call(value) === "[object Object]") {
+        // 处理对象
+        wkSet.has(value) && throwErr();
+        var tmp = [];
+        for (var k in value) {
+          if (value.hasOwnProperty(k) && !isIgnore(value[k])) {
+            tmp.push(stringify(k) + ": " + stringify(value[k]));
+          }
+        }
+        wkSet.add(value);
+        return "{" + tmp.join(", ") + "}";
+      }
+    }
+    return '"' + value.toString().replace(escRE, escFunc) + '"';
+  };
+  return result;
+}
+
+JSON.polyfillParse = function(json,type='function'){
+  return type === "function"
+    ? new Function("return " + json)()
+    : eval("(" + json + ")");
+}
+```
+
+
+### 实现一个柯里化函数
+柯里化:将使用多个参数的函数转换成一系列使用一个参数的函数，并且返回接受余下的参数而且返回结果的新函数的技术。  
+实现原理:「用闭包把传入参数保存起来，当传入参数的数量足够执行函数时，就开始执行函数, 否则继续返回函数」  
+```js
+const curry = function(fn,length){
+  length = fn.length || length;
+  const _slice = Array.prototype.slice;
+  return function(){
+    let args = _slice.call(arguments);
+    return args.length>=length ? fn.apply(this,args) : curr(fn.bind(this,...args),length-args.length)
+  }
+}
+
+const curryEs6 = (fn, ...args) =>
+  args.length >= fn.length ? fn(...args) : curryEs6.bind(null, fn, ...args);
 ```
