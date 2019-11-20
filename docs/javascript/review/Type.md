@@ -1,22 +1,23 @@
 # 基础回顾
 
-最新的 ECMAScript 标准定义了 8 种数据类型:
-7种原始类型:
-    Boolean  
-    Null  
-    Undefined  
-    Number  
-    BigInt  
-    String  
-    Symbol(符号类型)  
+最新的 ECMAScript 标准定义了 8 种数据类型:  
 
-Object(引用类型):  
-    Object  
-    Array  
-    RegExp  
-    Date  
-    Math  
-    Function  
+    7种原始类型:
+        Boolean  
+        Null  
+        Undefined  
+        Number  
+        BigInt  
+        String  
+        Symbol(符号类型)  
+
+    Object(引用类型):  
+        Object  
+        Array  
+        RegExp  
+        Date  
+        Math  
+        Function  
 
 > 在计算机科学中, 对象是指内存中的可以被标识符引用的一块区域.
 
@@ -53,6 +54,23 @@ let reg = /[a-zA-z0-0_]/;
 // reg instanceof RegExp = true
 let func = function(){};
 // func instanceof Function = true
+
+
+function isInstanceOf(left,right){
+  let rightPrototype = right.prototype;
+  let leftProto = left.__proto__;
+  while(true) {
+    if(leftProto===null){
+      return false;
+    }else if(leftProto===right.prototype){
+      return true;
+    }
+    leftProto = leftProto.__proto__;
+  }
+}
+
+
+
 ```
 ::: warning 注意
 typeof null = "object" 是Javascript历史悠久的一个bug~

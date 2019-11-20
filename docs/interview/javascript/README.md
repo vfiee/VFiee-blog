@@ -1,10 +1,13 @@
+---
+sidebar: "auto"
+---
+
 # Javascript面试指南
 
-## 概念问题
+## 😃请先做一下自我介绍~
+额~,自己对着墙联系哈~😃😃😃
 
-### 😃请先做一下自我介绍~
-
-### Javascript的数据类型都有哪些,有什么区别?
+## Javascript的数据类型都有哪些,有什么区别?
 Javascript数据类型有两种:基本类型和引用类型  
 基本类型:Boolean Null Undefined String Number Symbol BigInt  
 引用类型:Object Array Function Date ...  
@@ -14,7 +17,7 @@ Javascript数据类型有两种:基本类型和引用类型
 :::
  
 
-### 说一下你工作中常用的ES6
+## 说一下你工作中常用的ES6
 解构赋值  
 扩展运算符  
 ```Promise```  
@@ -28,7 +31,7 @@ Javascript数据类型有两种:基本类型和引用类型
 ```Function [ 箭头函数 默认参数 rest参数 ]```  
 
 
-### 请描述一下ES6中Set,Map,WeakSet,WeakMap,Symbol?
+## 请描述一下ES6中Set,Map,WeakSet,WeakMap,Symbol?
 
 Symbol可以保证对象的每个属性名都是独一无二的,避免了为新对象添加方法时key名称相同;
 Symbol是一种原始数据类型.  
@@ -83,7 +86,7 @@ Object 都有自己的原型，原型链上的键名有可能和你在对象上�
 ```Map.entries()```   返回一个新的 Iterator 对象，它按插入顺序包含了Map对象中每个元素的 [key, value] 数组。  
 ```Map.forEach(callbackFn([value,key,map]),[,thisARg])```     按插入顺序，为 Map对象里的每一键值对调用一次callbackFn函数。如果为forEach提供了thisArg，它将在每次回调中作为this值。  
 
-### let const var之间的区别?
+## let const var之间的区别?
 一: var  
 存在变量提升
 可重复声明
@@ -102,7 +105,7 @@ const声明创建一个值的只读引用(并不意味着值是不可变的,只�
 
 
 
-### 为什么var可以重复声明?
+## 为什么var可以重复声明?
 ::: tip JS运行时
 编译器：负责语法分析和代码生成.  
 引擎:负责整个过程中JavaScript的编译及执行过程。例如:V8引擎.  
@@ -139,7 +142,7 @@ var num = 2;
 */
 
 ```
-### 描述一下你对Promise的理解,Promise的原理是什么?
+## 描述一下你对Promise的理解,Promise的原理是什么?
 Promise 表示一个异步操作的最终结果.  
 Promise 有三种状态 pending fulfilled rejected.  
 
@@ -211,7 +214,7 @@ Promise.reject()
 返回一个状态为rejected的Promise对象.  
 
 
-### JS事件循环机制(Event Loop) 
+## JS事件循环机制(Event Loop) 
 
 ::: tip 知识点
 heap：堆  
@@ -229,7 +232,7 @@ macro-task：宏任务(包括整体代码script,setTimeout,setInterval,setImmedi
 3.同步函数执行完毕,开始执行微任务,微任务执行完毕,再次执行宏任务.  
 4.上述过程不断重复形成事件循环.  
 
-### CommonJS中的require/exports 和 ES6中的import/export的区别?
+## CommonJS中的require/exports 和 ES6中的import/export的区别?
 1.输出结果不同  
 CommonJS模块输出的是一个值的复制，ES6模块输出的是值的引用    
 
@@ -260,7 +263,7 @@ setTimeout(function(){
 
 ```
 
-### 描述一下this的指向问题?
+## 描述一下this的指向问题?
 1，当函数在没有任何修饰的情况下调用，非严格模式下，this指向全局对象，严格模式下this指向undefined。（默认绑定）  
 2，当函数由一个对象引导调用时，this指向该对象。（隐式绑定）  
 3，函数通过apply,call,bind绑定时，this指向绑定的对象。（显式绑定）  
@@ -269,7 +272,7 @@ setTimeout(function(){
 其优先级为：new绑定 > 显示绑定 > 隐式绑定 > 默认绑定；  
 
 
-### 描述一下你对闭包的了解?
+## 描述一下你对闭包的了解?
 ::: tip 提示
 正常情况下,函数的执行上下文在出栈后,内部的变量失去引用并等待垃圾回收机制回收,  
 闭包保留了对函数上下文的引用,导致变量没有被回收,容易引发内存泄漏.  
@@ -304,13 +307,13 @@ console.log(Counter.reduce());
 ```
 
 
-### == 和 === 有什么区别?
+## == 和 === 有什么区别?
 === 严格相等,判断类型和值是否都相等.  
 ==  宽松相等,先执行类型转换,在进行比较.  
 
 > **[JS比较表](https://dorey.github.io/JavaScript-Equality-Table/)**
 
-### 什么是跨域? 跨域的解决方法有哪些?
+## 什么是跨域? 跨域的解决方法有哪些?
 同源策略(Same Origin Policy):协议,域名,端口三者相同称之为同源.(目的是为了防止浏览器遭受XSS,CSFR攻击)
 
 同源策略限制行为:  
@@ -326,7 +329,7 @@ WebSocket协议
 CORS(跨域资源共享)  
 window.name + iframe  
 
-### jsonp原理跨域
+## jsonp原理跨域
 原理:为减轻Web服务器的负担,浏览器允许JS,CSS,IMG等静态资源的动态加载,  
 通过创建```<script /> <link /> <img />``` 标签并赋值,从而加载不同域名下的静态资源.  
 达到跨域的目的.  
@@ -357,7 +360,7 @@ console.info(`now, server is running on port 1011....`);
 
 ```
 
-### nginx反向代理跨域
+## nginx反向代理跨域
 原理:客户端发起的请求由反向代理服务器转发给内部网络上的服务器,并将内部网络的返回值返回给客户端,  
 此时代理服务器对外表现为一个反向代理服务器.  
 
@@ -388,7 +391,7 @@ XHR.onreadystatechange(function() {
 });
 ```
 
-### postMessage跨域
+## postMessage跨域
 postMessage是HTML5提供的API,用于安全地实现跨源通信.  
 ```js
 // 窗口1
@@ -445,7 +448,7 @@ export default {
 
 ```
 
-### CORS(跨域资源共享)跨域
+## CORS(跨域资源共享)跨域
 ```js
 let XHR = new XMLHttpRequest(); // IE8/9需用window.XDomainRequest兼容
 // 前端设置是否带cookie
@@ -461,7 +464,7 @@ XHR.onreadystatechange = function() {
 // 前端设置withCredentials,后台Response Headers中也要携带Access-Control-Allow-Credentials
 ```
 
-### window.name 配合 iframe
+## window.name 配合 iframe
 ```js
 function crossOriginByWindowNameAndIframe(targetUrl,callback) {
   let onLoadCounter = 0;
@@ -495,7 +498,7 @@ function onWindowNameChange(data) {
 }
 ```
 
-### 描述一下localstorage sessionStorage cookie以及他们之间的区别?
+## 描述一下localstorage sessionStorage cookie以及他们之间的区别?
 生命周期:  
 cookie:可设置失效时间,不设置关闭浏览器后失效.   
 localStorage:除非手动清除,否则永久保存.  
@@ -514,11 +517,9 @@ sessionStorage:不主动参与和服务器通信.
 
 
 
+# 实现问题
 
-## 实现问题
-
-
-### 怎么判断两个对象相等?
+## 怎么判断两个对象相等?
 ```js
 // 基本类型只需要判断值是否相等
 // 引用类型需要判断键值是否都相等
@@ -554,7 +555,7 @@ function deepEqual(l, r) {
 }
 ```
 
-### 描述一下防抖和节流的区别及应用场景
+## 描述一下防抖和节流的区别及应用场景
 ```js
 // 函数防抖:设定一个倒计时-间隔,在倒计时-间隔内再次触发该函数,时间重置并重新倒计时,倒计时完毕,执行回调函数.
 // 函数节流:设定一个倒计时-间隔,在倒计时间隔内多次触发该函数,只会执行最后一次触发函数.
@@ -592,7 +593,7 @@ function throttle(fn, delay) {
 
 ```
 
-### 函数内部 arguments 变量有哪些特性,有哪些属性,如何将它转换为数组
+## 函数内部 arguments 变量有哪些特性,有哪些属性,如何将它转换为数组
 特性:  
 arguments是一个类数组对象.  
 arguments 对象总会被创建，除非作为局部变量声明和作为形式参数。  
@@ -628,7 +629,7 @@ Array.from(arguments);
 
 
 
-### call,apply,bind相同点和不同点?
+## call,apply,bind相同点和不同点?
 相同点:  
 call,apply,bind方法允许传参绑定函数执行的this指向.  
 call,apply,bind方法的第一个参数都是在函数运行时使用的 this 值.  
@@ -739,7 +740,7 @@ Function.prototype.polyfillBind = function(bThis) {
 ```
 
 
-### 浅拷贝和深拷贝的区别? 分别实现一个深浅拷贝
+## 浅拷贝和深拷贝的区别? 分别实现一个深浅拷贝
 数据类型分为基本类型和引用类型  
 基本类型存储在栈内存中.  
 引用类型存储在堆内存中,变量的值存储的是堆内存的指针.  
@@ -813,7 +814,7 @@ function deepCopy(value) {
 }
 ```
 
-### 创建一个长度为5的空数组,生成一个(2~32)之间的随机证书rand,递归将随机整数rand插入arr,如果arr存在则重新生成并插入,输出一个长度为5且内容不重复的arr
+## 创建一个长度为5的空数组,生成一个(2~32)之间的随机证书rand,递归将随机整数rand插入arr,如果arr存在则重新生成并插入,输出一个长度为5且内容不重复的arr
 
 ```js
 // 创建一个长度为5的空数组
@@ -844,7 +845,7 @@ function insertArr(num){
 ```
 
 
-### 实现一个new运算符
+## 实现一个new运算符
 new 运算符创建一个用户定义的对象类型的实例或具有构造函数的内置对象的实例.  
 new进行了一下操作:  
 1.创建了一个空的对象.  
@@ -874,7 +875,7 @@ console.log(ming instanceof Person);
 ```
 
 
-### 实现一个JSON.stringify JSON.parse
+## 实现一个JSON.stringify JSON.parse
 ```js
 // 来源于MDN,并做了丢丢优化
 JSON.polyfillStringify = function(value) {
@@ -958,7 +959,7 @@ JSON.polyfillParse = function(json,type='function'){
 ```
 
 
-### 实现一个柯里化函数
+## 实现一个柯里化函数
 柯里化:将使用多个参数的函数转换成一系列使用一个参数的函数，并且返回接受余下的参数而且返回结果的新函数的技术。  
 实现原理:「用闭包把传入参数保存起来，当传入参数的数量足够执行函数时，就开始执行函数, 否则继续返回函数」  
 ```js
@@ -974,3 +975,285 @@ const curry = function(fn,length){
 const curryEs6 = (fn, ...args) =>
   args.length >= fn.length ? fn(...args) : curryEs6.bind(null, fn, ...args);
 ```
+
+
+## 实现一个Promise
+
+```js
+const PENDING = "pending";
+const FULFILLED = "fulfilled";
+const REJECTED = "rejected";
+
+function Promise(executor) {
+    let _self = this;
+    // Promise的状态
+    _self.status = PENDING;
+    // Promise的返回值
+    _self.value = void 0;
+    // resolved的回调函数
+    _self.onFulfilled = [];
+    // rejected的回调函数
+    _self.onRejected = [];
+
+    function onResolve(value) {
+        if (_self.status !== PENDING) return;
+        _self.status = FULFILLED;
+        _self.value = value;
+        _self.onFulfilled.forEach(fn => fn());
+    }
+
+    function onReject(reason) {
+        if (_self.status !== PENDING) return;
+        _self.status = REJECTED;
+        _self.value = reason;
+        _self.onRejected.forEach(fn => fn());
+    }
+
+    try {
+        executor(onResolve, onReject);
+    } catch (err) {
+        onReject(err);
+    }
+}
+
+Promise.prototype.then = function (onFulfilled, onRejected) {
+    onFulfilled = typeof onFulfilled === "function" ? onFulfilled : value => value;
+    onRejected = typeof onRejected === "function" ? onRejected : reason => { throw reason };
+    let _self = this;
+    let promiseThen = new Promise((resolve, reject) => {
+        switch (_self.status) {
+            case FULFILLED: {
+                setTimeout(() => {
+                    try {
+                        let value = onFulfilled(_self.value);
+                        handlePromise(promiseThen, value, resolve, reject);
+                    } catch (err) {
+                        reject(err);
+                    }
+                });
+                break;
+            }
+            case REJECTED: {
+                setTimeout(() => {
+                    try {
+                        let reason = onRejected(_self.value);
+                        handlePromise(promiseThen, reason, resolve, reject);
+                    } catch (err) {
+                        reject(err);
+                    }
+                });
+                break;
+            }
+            default: {
+                _self.onFulfilled.push(() => {
+                    setTimeout(() => {
+                        try {
+                            let value = onFulfilled(_self.value);
+                            handlePromise(promiseThen, value, resolve, reject);
+                        } catch (err) {
+                            reject(err);
+                        }
+                    });
+                });
+                _self.onRejected.push(() => {
+                    setTimeout(() => {
+                        try {
+                            let reason = onRejected(_self.value);
+                            handlePromise(promiseThen, reason, resolve, reject);
+                        } catch (err) {
+                            reject(err);
+                        }
+                    });
+                });
+                break;
+            }
+        }
+    });
+    return promiseThen;
+}
+function handlePromise(promiseIns, value, resolve, reject) {
+    if (promiseIns === value) {
+        reject(new TypeError('Chaining cycle detected for promise'));
+    }
+    if (value && typeof value === 'object' || typeof value === 'function') {
+        let isUsed;
+        try {
+            let valueThen = value.then;
+            if (typeof valueThen === 'function') {
+                valueThen.call(value,
+                    (res) => {
+                        if (isUsed) return;
+                        isUsed = true;
+                        handlePromise(promiseIns, res, resolve, reject);
+                    },
+                    (err) => {
+                        if (isUsed) return;
+                        isUsed = true;
+                        reject(err);
+                    },
+                );
+            } else {
+                if (isUsed) return;
+                isUsed = true;
+                resolve(value);
+            }
+        } catch (err) {
+            if (isUsed) return;
+            isUsed = true;
+            reject(err);
+        }
+    } else {
+        resolve(value);
+    }
+}
+
+Promise.defer = Promise.deferred = function () {
+    let def = {};
+    def.promise = new Promise((resolve, reject) => {
+        def.resolve = resolve;
+        def.reject = reject;
+    });
+    return def;
+}
+
+/**
+1.如果传入的value本身就是promise对象，那么Promise.resolve将不做任何修改、原封不动地返回这个promise对象。
+2.如果 value 是个 thenable 对象，返回的promise会“跟随”这个thenable的对象，采用它的最终状态
+3.其他情况，直接返回以该值为成功状态的promise对象。
+ */
+Promise.resolve = function (value) {
+    if (value instanceof Promise) {
+        return value;
+    }
+    return new Promise((resolve, reject) => {
+        if (value && value.then && typeof value.then === 'function') {
+            setTimeout(() => {
+                value.then(resolve, reject);
+            });
+        } else {
+            resolve(value);
+        }
+    })
+}
+// Promise.reject()方法的参数，会原封不动地作为reject的理由，变成后续方法的参数。
+Promise.reject = function (reason) {
+    return new Promise((resolve, reject) => {
+        reject(reason);
+    })
+}
+
+// Promise.prototype.catch 用于指定出错时的回调，是特殊的then方法，catch之后，可以继续then
+Promise.prototype.catch = function (onReject) {
+    return this.then(null, onReject);
+}
+// 不管成功还是失败，都会走到finally中,并且finally之后，还可以继续then。
+// 并且会将值原封不动的传递给后面的then.
+Promise.prototype.finally = function (onFinally) {
+    return this.then((value) => {
+        return Promise.resolve(onFinally())
+            .then(() => {
+                return value;
+            });
+    }, (err) => {
+        return Promise.resolve(onFinally())
+            .then(() => {
+                throw (err);
+            });
+    });
+}
+
+
+/**
+1.如果传入的参数是一个空的可迭代对象，那么此promise对象回调完成(resolve),只有此情况，是同步执行的，其它都是异步返回的。
+2.如果传入的参数不包含任何 promise，则返回一个异步完成.
+3.promises 中所有的promise都promise都“完成”时或参数中不包含 promise 时回调完成。
+4.如果参数中有一个promise失败，那么Promise.all返回的promise对象失败
+5.在任何情况下，Promise.all 返回的 promise 的完成状态的结果都是一个数组
+ */
+Promise.all = function (promises) {
+    return new Promise((resolve, reject) => {
+        let index = 0;
+        let result = [];
+        let proLen = promises.length;
+        if (proLen === 0) {
+            resolve(result);
+        } else {
+            for (let i = 0; i < proLen; i++) {
+                Promise.resolve(promises[i])
+                    .then((data) => {
+                        result[i] = data;
+                        ++index;
+                        if (index === proLen) {
+                            resolve(result);
+                        }
+                    }).catch((err) => {
+                        reject(err);
+                        return;
+                    });
+            }
+        }
+    });
+}
+
+/**
+1.race 函数返回一个 Promise，它将与第一个传递的 promise 相同的完成方式被完成。它可以是完成（ resolves），也可以是失败（rejects），这要取决于第一个完成的方式是两个中的哪个。
+2.如果传的迭代是空的，则返回的 promise 将永远等待。
+3.如果迭代包含一个或多个非承诺值和/或已解决/拒绝的承诺，则 Promise.race 将解析为迭代中找到的第一个值。
+ */
+Promise.race = function (promises) {
+    return new Promise((resolve, reject) => {
+        let proLen = promises.length;
+        if (proLen === 0) {
+            return;
+        } else {
+            for (let i = 0; i < proLen; i++) {
+                Promise.resolve(promises[i])
+                    .then((data) => {
+                        resolve(data);
+                        return;
+                    }, (err) => {
+                        reject(err);
+                        return;
+                    });
+            }
+        }
+    });
+}
+
+Promise.allSettled = function (promises) {
+    return new Promise((resolve) => {
+        let index = 0;
+        let result = [];
+        let _self = this;
+        let proLen = promises.length;
+        function handResult(i, data) {
+            result[i] = data;
+            ++index;
+            if (index === proLen) {
+                resolve(result);
+            }
+        }
+        if (proLen === 0) {
+            resolve(result);
+        } else {
+            for (let i = 0; i < proLen; i++) {
+                Promise.resolve(promises[i])
+                    .then((data) => {
+                        handResult(i, {
+                            status: _self.status,
+                            value: data,
+                        });
+                    }).catch((err) => {
+                        handResult(i, {
+                            status: _self.status,
+                            reason: err
+                        });
+                    });
+            }
+        }
+    });
+}
+
+module.exports = Promise;
+```
+>  参考资料 **[Promise/A+](https://promisesaplus.com/)**  **[刘小夕](https://promisesaplus.com/)**  **[MDN Promise](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise)**

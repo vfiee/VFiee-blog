@@ -46,13 +46,13 @@ module.exports = {
         ],
         "/interview/": [
             {
-                title: "剑指Offer",
+                title: "Javascript",
                 children: [
                     "/interview/css3/",
                     "/interview/html5/",
-                    "/interview/javascript/",
                     "/interview/vue/",
-                    "/interview/react/"
+                    "/interview/react/",
+                    "/interview/javascript/",
                 ]
             }
         ],
