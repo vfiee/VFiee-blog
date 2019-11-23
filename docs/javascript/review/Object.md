@@ -4,11 +4,11 @@
   构造函数,原型和实例的关系
   !!!!! 
   1.每个构造函数(constructor)都有一个原型对象(prototype),原型对象都包含一个指向构造函数的指针  
-  2.构造函数实例(instance)都包含一个指向原型对象的内部指针__proto__  
-  3.每个构造函数都有一个指向构造该构造函数(构造函数的构造函数)原型对象的内部指针__proto__  
+  2.每个构造函数(constructor)都有一个__proto__属性,指向构造该构造函数(构造函数的构造函数)的原型对象的内部指针
+  3.构造函数实例(instance)都包含一个指向原型对象的内部指针__proto__  
   
   constructor  指向构造函数
-  __proto__    指向构造函数的原型对象(每个构造函数实例所有的属性,指向构造函数constructor的prototype属性)
+  __proto__    指向构造函数的原型对象(只有每个构造函数实例[函数对象]拥有的属性,指向构造函数constructor的prototype属性)
   prototype    构造函数constructor的属性prototype
 ```
 ![jsobj_full](~@IMAGES/jsobj_full.jpg);

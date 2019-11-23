@@ -24,7 +24,7 @@ Javascript数据类型有两种:基本类型和引用类型
 ```let const```  
 ```async await```    
 ```import export```  
-```String [String]```  
+```String [includes]```  
 ```Number [isFinite isNaN parseInt parseFloat isInteger]```  
 ```Array [from find findIndex keys values entries includes flat flatMap]```  
 ```Object [is assign keys values entries fromEntries]```  
@@ -75,7 +75,7 @@ Map 在涉及频繁增删键值对的场景下会有些性能优势.
 Object 都有自己的原型，原型链上的键名有可能和你在对象上的设置的键名产生冲突。
 :::
 
-```Map.size``` Map对象的键值对的数量。 
+```Map.size``` Map对象的键值对的数量。   
 ```Map/WeakMap.set(key,value)``` 设置Map对象中键的值并返回该Map对象  
 ```Map/WeakMap.get(key)```  返回键对应的值，如果不存在，则返回undefined。  
 ```Map/WeakMap.delete(key)```  如果 Map 对象中存在该元素，则移除它并返回 true；否则如果该元素不存在则返回 false  
@@ -88,20 +88,20 @@ Object 都有自己的原型，原型链上的键名有可能和你在对象上�
 
 ## let const var之间的区别?
 一: var  
-存在变量提升
-可重复声明
-只有函数作用域和全局作用域
-绑定全局作用域(不声明变量默认为全局变量,例如a=1)
+可重复声明  
+存在变量提升  
+只有函数作用域和全局作用域  
+绑定全局作用域(不声明,变量默认为全局变量,例如a=1)  
 
-二: let  const  
-不存在变量提升
-不可以重复声明(相同作用域)
-变量处在一个自块顶部到初始化处理的“暂存死区”中
-不绑定全局作用域
+二: let  const   
+不存在变量提升  
+不可以重复声明(相同作用域)  
+变量处在一个自块顶部到初始化处理的“暂存死区”中  
+不绑定全局作用域  
 
 三: const  
-const声明必须赋值
-const声明创建一个值的只读引用(并不意味着值是不可变的,只是变量编标志不能重新分配).
+const声明必须赋值  
+const声明创建一个值的只读引用(并不意味着值是不可变的,只是变量编标志不能重新分配).  
 
 
 
@@ -236,9 +236,9 @@ macro-task：宏任务(包括整体代码script,setTimeout,setInterval,setImmedi
 1.输出结果不同  
 CommonJS模块输出的是一个值的复制，ES6模块输出的是值的引用    
 
-2.加载机制不同
+2.加载机制不同  
 CommonJS模块是运行时加载，ES6模块是编译时输出接口  
-CommonJS模块加载的是一个对象(module.exports属性),该对象只有在脚本运行结束时才会生成.
+CommonJS模块加载的是一个对象(module.exports属性),该对象只有在脚本运行结束时才会生成.  
 ES6模块加载是对外接口的一种静态定义,在代码静态解析阶段就会生成.
 
 ```js
@@ -502,7 +502,7 @@ function onWindowNameChange(data) {
 生命周期:  
 cookie:可设置失效时间,不设置关闭浏览器后失效.   
 localStorage:除非手动清除,否则永久保存.  
-sessionStorage:仅在当前网页回话下有效,关闭网页或浏览器被清除.  
+sessionStorage:仅在当前网页会话下有效,关闭网页或浏览器被清除.  
 
 数据大小限制:  
 cookie:4KB  
@@ -523,35 +523,25 @@ sessionStorage:不主动参与和服务器通信.
 ```js
 // 基本类型只需要判断值是否相等
 // 引用类型需要判断键值是否都相等
-function deepEqual(l, r) {
-  let isObject = value => value instanceof Object;
-  let isFunction = value => value instanceof Function;
-  if (!isObject(l) || !isObject(r)) {
-    return Object.is(l, r);
-  } else if (Object.keys(l).length !== Object.keys(r).length) {
-    return false;
-  } else if (isFunction(l) || isFunction(r)) {
-    return l.toString() === r.toString();
-  }
-  let keys = Object.keys(l);
-  for (let i = 0; i < keys.length; i++) {
-    let lEl = l[keys[i]];
-    let rEl = r[keys[i]];
-    if (isObject(lEl)) {
-      let result;
-      if (isFunction(l) || isFunction(r)) {
-        result = l.toString() === r.toString();
-      } else {
-        result = this.deepEqual(lEl, rEl);
-      }
-      if (!result) {
-        return result;
-      }
-    } else if (!Object.is(lEl, rEl)) {
-      return false;
+function isDeepEqual(l, r) {
+    const isObject = obj => typeof obj === "object";
+    const getObjLen = obj => Object.keys(obj).length;
+    if (l === r) {
+        return true;
+    } else if (!isObject(l) || !isObject(r)) {
+        return Object.is(l, r);
+    } else if (getObjLen(l) !== getObjLen(r)) {
+        return false;
     }
-  }
-  return true;
+    for (let key in l) {
+        if (r.hasOwnProperty(key)) {
+            if (!isDeepEqual(l[key], r[key])) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
 ```
 
@@ -574,7 +564,7 @@ function debounce(fn, delay) {
 
 function throttle(fn, delay) {
   let lastTime, timer;
-  return function(args) {
+  return function() {
     let _this = this;
     let _args = arguments;
     let now = +new Date();
@@ -663,55 +653,23 @@ let obj2 = {
 function test(){
     console.log(this);
 }
-function transArgumentsToArray(args=[]){
-    args = Array.prototype.slice.call(args,1);
-    return args.map(curr=>{
-        if(typeof curr === "function"){
-            return curr.toString();
-        }else if(typeof curr==="undefined"){
-            return "undefined";
-        }
-        return JSON.stringify(curr);
-    });
-}
-function getContext(context) {
-    return (context===null||context===undefined) ? window : Object(context);;
-}
 // call实现
-Function.prototype.polyfillCall = function(context) {
-    context = getContext(context);
-    let args = transArgumentsToArray(arguments);
+Function.prototype.polyfillCall = function(context){
+    context = context === null || context === undefined ? window : Object(context);
+    let args = Array.prototype.slice.call(arguments, 1);
     context.__fn__ = this;
-    let result;
-    result = args.length ? eval("context.__fn__("+ args.join() +")") : context.__fn__();
+    let result = args.length ? context.__fn__(...args) : context.__fn__();
     delete context.__fn__;
     return result;
 }
 
-Function.prototype.polyfillCallEs6 = function(context) {
-    context = getContext(context);
-    let args = transArgumentsToString(arguments);
-    context.__fn__ = this;
-    let result = args.length?context.__fn__(...args):context.__fn__();
-    delete context.__fn__;
-    return result;
-}
-
-obj.sayArgs.polyfillCall(obj2,[],{},2,'test',null,undefined,test);
+obj.sayArgs.polyfillCall(obj2,[],{},2,'test',null,undefined,test,/[a-zA-Z0-9_]/,new Date());
 
 // apply实现
 Function.prototype.polyfillApply = function(context) {
-    context = getContext(context);
-    let args = transArgumentsToArray(arguments);
+    context = context === null || context === undefined ? window : Object(context);
     context.__fn__ = this;
-    let result = arguments[1] ? context.__fn__(args) : context.__fn__();
-    delete context.__fn__;
-    return result;
-}
-
-Function.prototype.polyfillApplyES6 = function(context) {
-    context = getContext(context);
-    context.__fn__ = this;
+    let args = Array.prototype.slice.call(arguments, 1);
     let result = args ? context.__fn__([...arguments[1]]) : context.__fn__();
     delete context.__fn__;
     return result;
@@ -719,18 +677,31 @@ Function.prototype.polyfillApplyES6 = function(context) {
 
 
 // bind实现
-Function.prototype.polyfillBind = function(bThis) {
+/*
+bind() 方法会创建一个新函数  
+新函数被调用时，新函数的this指向bind()函数的第一个参数  
+之后的参数(从第二个算起)将以参数列表的形式传递到新函数
+新函数作为构造函数时,bind绑定的作用域将失效,但传入的参数依然生效.
+*/
+Function.prototype.polyfillBind = function(context) {
+  if (typeof this !== 'function') {
+      throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+    }
+    let _this = this;
     let args = Array.prototype.slice.call(arguments,1);
-    let context = this;
     let FBlank = function(){};
     let FBind = function(){
-        return context.apply(
-            this instanceof FBind ? this : bThis,
+      // this instanceof FBind === true时,说明返回的fBound被当做new的构造函数调用
+        return _this.apply(
+            this instanceof FBind ? this : context,
             args.concat(Array.prototype.slice.call(arguments))
         );
     };
-    if(context.prototype) {
-        FBlank.prototype = context.prototype;
+    // 维护原型关系
+    if(this.prototype) {
+      // 当执行Function.prototype.bind()时, this为Function.prototype 
+      // this.prototype(即Function.prototype.prototype)为undefined
+        FBlank.prototype = this.prototype;
     }
     FBind.prototype = new FBlank();
     return FBind;
@@ -769,12 +740,12 @@ JSON.parse将字符串生成新的对象,开辟新的栈
 
 浅拷贝实现:  
  ```js
-function shadowCopy(target) {
-    let isObject = (array) => Object.prototype.toString.call(array)==='[object Array]';
-    if(!isObject(target)) return target;
+export function clone(target) {
+    let isObject = target instanceof Object;
+    if (!isObject) return target;
     let result = {};
-    for(let key in target) {
-        if(target.hasOwnProperty(key)){
+    for (let key in target) {
+        if (target.hasOwnProperty(key)) {
             result[key] = target[key];
         }
     }
@@ -783,32 +754,53 @@ function shadowCopy(target) {
 ``` 
 深拷贝实现:  
 ```js
-function deepCopy(value) {
-    let isObject = (object)=>(object != null && (typeof object === 'object'));
-    let isArray = (array) => Object.prototype.toString.call(array)==='[object Array]';
-    if(!isObject(value)) return value;
-    // 处理循环引用
-    let set = new WeakSet();
-    let cpFunc = (target)=>{
-        let result = isArray(target) ? []:{};
-        for(let key in target) {
-            if(target.hasOwnProperty(key)){
-                let element = target[key];
-                if(isObject(element)){
-                    if(set.has(element)){
-                        result[key] = element;
+export function cloneDeep(target) {
+    let isObject = value => value instanceof Object;
+    let getType = value => {
+        let type = Object.prototype.toString.call(value);
+        return type.match(/^\[object\s([a-zA-Z]+)\]$/)[1];
+    }
+    let isArray = array => getType(array) === "Array";
+    let getExtraObj = (value) => {
+        let type = getType(value);
+        if (type === "RegExp") {
+            let reg = new RegExp(value.source, value.flags);
+            if (value.lastIndex) {
+                reg.lastIndex = value.lastIndex;
+            }
+            return reg;
+        } else if (type === "Date") {
+            return new Date(value.getTime());
+        } else if (type === 'Function') {
+            return value;
+        }
+    }
+    if (!isObject(target)) return target;
+    let extraResult = getExtraObj(target);
+    if (extraResult) {
+        return extraResult;
+    }
+    let set = new Set();
+    let cloneFunc = function (value) {
+        let result = isArray(value) ? [] : {};
+        for (let key in value) {
+            if (value.hasOwnProperty(key)) {
+                let ele = value[key];
+                if (isObject(ele)) {
+                    if (set.has(ele)) {
+                        result[key] = ele;
                         continue;
                     }
-                    set.add(element);
-                    result[key] = deepCopy(element);
-                }else {
-                    result[key] = element;
+                    set.add(ele);
+                    result[key] = cloneDeep(ele);
+                } else {
+                    result[key] = ele;
                 }
             }
         }
         return result;
     }
-    let result = cpFunc(value);
+    let result = cloneFunc(target);
     set.clear();
     return result;
 }
@@ -817,30 +809,27 @@ function deepCopy(value) {
 ## 创建一个长度为5的空数组,生成一个(2~32)之间的随机证书rand,递归将随机整数rand插入arr,如果arr存在则重新生成并插入,输出一个长度为5且内容不重复的arr
 
 ```js
-// 创建一个长度为5的空数组
-let arr = new Array(5);
-// 生成一个(2~32)之间的随机证书rand
-let randomInt = getRandomInt(2,32);
-// 递归将随机整数rand插入arr,如果arr存在则重新生成并插入,输出一个长度为5且内容不重复的arr
-insertArr(getRandomInt(2,32));
-
-function getRandomInt(min,max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random()*(max-min)) + min;
+export const randomRange = (min, max) => {
+    min = parseInt(min);
+    max = parseInt(max);
+    return Math.floor(Math.random() * (max - min)) + min;
 }
-
-function insertArr(num){
-    arr = arr.flat();
-    if(arr.includes(num)){
-        insertArr(getRandomInt(2,32));
-        return;
+export function archiveThat() {
+    let arr = new Array(5);
+    let mathRandom = randomRange.bind(null, 2, 32);
+    let insertArr = (randFunc, arr) => {
+        let randNum = randFunc();
+        arr = arr.flat();
+        if (arr.includes(randNum)) {
+            return insertArr(randFunc, arr);
+        }
+        arr.push(randNum);
+        if (arr.length === 5) {
+            return arr;
+        }
+        return insertArr(randFunc, arr);
     }
-    arr.push(num);
-    if(arr.length===5){
-        return arr;
-    }
-    inserrtArr(getRandomInt(2,32));
+    return insertArr(mathRandom, arr);
 }
 ```
 
@@ -964,11 +953,11 @@ JSON.polyfillParse = function(json,type='function'){
 实现原理:「用闭包把传入参数保存起来，当传入参数的数量足够执行函数时，就开始执行函数, 否则继续返回函数」  
 ```js
 const curry = function(fn,length){
-  length = fn.length || length;
+  let length = length || fn.length;
   const _slice = Array.prototype.slice;
   return function(){
     let args = _slice.call(arguments);
-    return args.length>=length ? fn.apply(this,args) : curr(fn.bind(this,...args),length-args.length)
+    return args.length>=length ? fn.apply(this,args) : curry(fn.bind(this,...args),length-args.length)
   }
 }
 
