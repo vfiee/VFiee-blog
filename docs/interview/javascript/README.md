@@ -523,25 +523,27 @@ sessionStorage:不主动参与和服务器通信.
 ```js
 // 基本类型只需要判断值是否相等
 // 引用类型需要判断键值是否都相等
-function isDeepEqual(l, r) {
-    const isObject = obj => typeof obj === "object";
-    const getObjLen = obj => Object.keys(obj).length;
-    if (l === r) {
+function isDeepEqual(left, right) {
+    if (left === right) {
         return true;
-    } else if (!isObject(l) || !isObject(r)) {
-        return Object.is(l, r);
-    } else if (getObjLen(l) !== getObjLen(r)) {
+    }
+    const isObject = (value) => value instanceof Object;
+    const getLen = value => Object.keys(value).length;
+    if (!isObject(left) || !isObject(right)) {
+        return Object.is(right);
+    } else if (getLen(left) !== getLen(right)) {
         return false;
     }
-    for (let key in l) {
-        if (r.hasOwnProperty(key)) {
-            if (!isDeepEqual(l[key], r[key])) {
+    for (let key in left) {
+        if (right.hasOwnProperty(key)) {
+            if (!isDeepEqual(left[key], right[key])) {
                 return false;
             }
         } else {
             return false;
         }
     }
+    return true;
 }
 ```
 
@@ -669,8 +671,7 @@ obj.sayArgs.polyfillCall(obj2,[],{},2,'test',null,undefined,test,/[a-zA-Z0-9_]/,
 Function.prototype.polyfillApply = function(context) {
     context = context === null || context === undefined ? window : Object(context);
     context.__fn__ = this;
-    let args = Array.prototype.slice.call(arguments, 1);
-    let result = args ? context.__fn__([...arguments[1]]) : context.__fn__();
+    let result = arguments.length ? context.__fn__(...arguments[1]) : context.__fn__();
     delete context.__fn__;
     return result;
 }
@@ -691,7 +692,7 @@ Function.prototype.polyfillBind = function(context) {
     let args = Array.prototype.slice.call(arguments,1);
     let FBlank = function(){};
     let FBind = function(){
-      // this instanceof FBind === true时,说明返回的fBound被当做new的构造函数调用
+      // this instanceof FBind === true时,说明返回的FBind被当做new的构造函数调用
         return _this.apply(
             this instanceof FBind ? this : context,
             args.concat(Array.prototype.slice.call(arguments))
@@ -741,12 +742,13 @@ JSON.parse将字符串生成新的对象,开辟新的栈
 浅拷贝实现:  
  ```js
 export function clone(target) {
-    let isObject = target instanceof Object;
-    if (!isObject) return target;
-    let result = {};
-    for (let key in target) {
-        if (target.hasOwnProperty(key)) {
-            result[key] = target[key];
+    let getType = value => Object.prototype.toString.call(value).slice(8, -1);
+    let targetType = getType(target);
+    if (targetType !== 'Object' || targetType !== 'Array') return target;
+    let result = targetType === 'Array' ? [] : {};
+    for (let key in object) {
+        if (object.hasOwnProperty(key)) {
+            result[key] = object[key]
         }
     }
     return result;
@@ -754,54 +756,44 @@ export function clone(target) {
 ``` 
 深拷贝实现:  
 ```js
-export function cloneDeep(target) {
-    let isObject = value => value instanceof Object;
-    let getType = value => {
-        let type = Object.prototype.toString.call(value);
-        return type.match(/^\[object\s([a-zA-Z]+)\]$/)[1];
-    }
-    let isArray = array => getType(array) === "Array";
-    let getExtraObj = (value) => {
-        let type = getType(value);
-        if (type === "RegExp") {
-            let reg = new RegExp(value.source, value.flags);
-            if (value.lastIndex) {
-                reg.lastIndex = value.lastIndex;
-            }
-            return reg;
-        } else if (type === "Date") {
-            return new Date(value.getTime());
-        } else if (type === 'Function') {
-            return value;
+function copyDeep(target) {
+    let getType = value => Object.prototype.toString.call(value).slice(8, -1);
+    if (target !== null && typeof target !== 'object') return target;
+    let targetType = getType(target);
+    if (targetType === 'Date') {
+        return new Date(target.getTime());
+    } else if (targetType === 'RegExp') {
+        let newReg = new RegExp(target.source, target.flags);
+        if (target.lastIndex) {
+            newReg.lastIndex = target.lastIndex;
         }
-    }
-    if (!isObject(target)) return target;
-    let extraResult = getExtraObj(target);
-    if (extraResult) {
-        return extraResult;
+        return newReg;
+    } else if (targetType === 'Funciton') {
+        return targetType;
     }
     let set = new Set();
-    let cloneFunc = function (value) {
-        let result = isArray(value) ? [] : {};
+    let cpFunc = function (value) {
+        let result = targetType === 'Array' ? [] : {};
         for (let key in value) {
             if (value.hasOwnProperty(key)) {
-                let ele = value[key];
-                if (isObject(ele)) {
-                    if (set.has(ele)) {
-                        result[key] = ele;
-                        continue;
+                let currValue = value[key];
+                if (typeof currValue === 'object') {
+                    if (set.has(currValue)) {
+                        result[key] = currValue;
+                    } else {
+                        set.add(currValue);
+                        result[key] = copyDeep(currValue);
                     }
-                    set.add(ele);
-                    result[key] = cloneDeep(ele);
                 } else {
-                    result[key] = ele;
+                    result[key] = currValue;
                 }
             }
         }
         return result;
     }
-    let result = cloneFunc(target);
+    let result = cpFunc(target);
     set.clear();
+    set = null;
     return result;
 }
 ```
