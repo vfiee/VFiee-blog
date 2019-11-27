@@ -41,6 +41,7 @@ module.exports = {
                     "/javascript/review/Function.md",
                     "/javascript/review/Date.md",
                     '/javascript/review/RegExp.md',
+                    '/javascript/review/SetMap.md',
                 ]
             }
         ],

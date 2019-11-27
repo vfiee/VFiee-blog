@@ -8,7 +8,7 @@ const {
 module.exports = {
     dest: 'dist',
     base: '/blog/',
-    title: "Vyron",
+    title: "记录生活,记录成长",
     locales: baseCof,
     markdown: markdownCof,
     themeConfig: themeCof,

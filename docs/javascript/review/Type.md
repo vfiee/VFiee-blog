@@ -88,7 +88,7 @@ Javascript中的类型转换包含三种
 
 
 <div align="center" >
-  <img src="../../../assets/images/trans.jpg">
+  <img src="../../../assets/images/trans.webp">
 </div>
 
 >  图片来源 **[神三元](https://juejin.im/post/5dac5d82e51d45249850cd20)**
