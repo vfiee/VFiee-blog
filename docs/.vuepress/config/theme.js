@@ -36,6 +36,7 @@ module.exports = {
                 title: 'JavaScript',
                 children: [
                     "/javascript/review/Type.md",
+                    "/javascript/review/Symbol.md",
                     "/javascript/review/Array.md",
                     "/javascript/review/Object.md",
                     "/javascript/review/Function.md",
