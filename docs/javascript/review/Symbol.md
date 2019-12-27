@@ -4,11 +4,11 @@
 使用Symbol()创建新的symbol类型，并用一个可选的字符串作为其描述。  
 
 ::: tip 注意点
-1.Symbol值无法转换为Number值
-2.Symbol值不能和String值相加
-3.Symbols 在 for...in 迭代中不可枚举
-4.JSON.strIngify()完全忽略symbol
-5.
+1.Symbol值无法转换为Number值  
+2.Symbol值不能和String值相加  
+3.Symbols 在 for...in 迭代中不可枚举  
+4.JSON.strIngify()完全忽略symbol  
+5.通过Object.getOwnPropertySymbols和Reflect.ownKeys  
 
 :::
 

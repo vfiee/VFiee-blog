@@ -24,11 +24,12 @@ Javascript数据类型有两种:基本类型和引用类型
 ```let const```  
 ```async await```    
 ```import export```  
-```String [includes]```  
-```Number [isFinite isNaN parseInt parseFloat isInteger]```  
-```Array [from find findIndex keys values entries includes flat flatMap]```  
-```Object [is assign keys values entries fromEntries]```  
-```Function [ 箭头函数 默认参数 rest参数 ]```  
+```Set WeakSet Map WeakMap```   
+```String [includes trimStart trimEnd 模板字符串 ]```  
+```Number [isFinite isNaN parseInt parseFloat isInteger isSafeInteger]```  
+```Array [from of find findIndex keys values entries includes flat flatMap]```  
+```Object [is assign keys values entries fromEntries getPrototypeOf setPrototypeOf]```  
+```Function [ 默认参数 rest参数 箭头函数 ]```  
 
 
 ## 请描述一下ES6中Set,Map,WeakSet,WeakMap,Symbol?
@@ -101,15 +102,15 @@ Object 都有自己的原型，原型链上的键名有可能和你在对象上�
 
 三: const  
 const声明必须赋值  
-const声明创建一个值的只读引用(并不意味着值是不可变的,只是变量编标志不能重新分配).  
+const声明创建一个值的只读引用(并不意味着值是不可变的,只是变量标志不能重新分配).  
 
 
 
 ## 为什么var可以重复声明?
 ::: tip JS运行时
 编译器：负责语法分析和代码生成.  
-引擎:负责整个过程中JavaScript的编译及执行过程。例如:V8引擎.  
 作用域：负责收集并维护所有的标识符（变量）.  
+引擎:  负责整个过程中JavaScript的编译及执行过程。例如:V8引擎.  
 :::
 ```js
 var num = 1;
@@ -138,7 +139,7 @@ var num = 2;
 引擎运行代码num=2;
 引擎问作用域:当前作用域存在num变量么?
 作用域回答:存在.(如果不存在则抛出异常)
-引擎为变量num赋值为1.
+引擎为变量num赋值为2.
 */
 
 ```
@@ -329,7 +330,7 @@ WebSocket协议
 CORS(跨域资源共享)  
 window.name + iframe  
 
-## jsonp原理跨域
+### jsonp原理跨域
 原理:为减轻Web服务器的负担,浏览器允许JS,CSS,IMG等静态资源的动态加载,  
 通过创建```<script /> <link /> <img />``` 标签并赋值,从而加载不同域名下的静态资源.  
 达到跨域的目的.  
@@ -360,7 +361,7 @@ console.info(`now, server is running on port 1011....`);
 
 ```
 
-## nginx反向代理跨域
+### nginx反向代理跨域
 原理:客户端发起的请求由反向代理服务器转发给内部网络上的服务器,并将内部网络的返回值返回给客户端,  
 此时代理服务器对外表现为一个反向代理服务器.  
 
@@ -391,7 +392,7 @@ XHR.onreadystatechange(function() {
 });
 ```
 
-## postMessage跨域
+### postMessage跨域
 postMessage是HTML5提供的API,用于安全地实现跨源通信.  
 ```js
 // 窗口1
@@ -448,7 +449,7 @@ export default {
 
 ```
 
-## CORS(跨域资源共享)跨域
+### CORS(跨域资源共享)跨域
 ```js
 let XHR = new XMLHttpRequest(); // IE8/9需用window.XDomainRequest兼容
 // 前端设置是否带cookie
@@ -464,7 +465,7 @@ XHR.onreadystatechange = function() {
 // 前端设置withCredentials,后台Response Headers中也要携带Access-Control-Allow-Credentials
 ```
 
-## window.name 配合 iframe
+### window.name 配合 iframe
 ```js
 function crossOriginByWindowNameAndIframe(targetUrl,callback) {
   let onLoadCounter = 0;
@@ -523,22 +524,22 @@ sessionStorage:不主动参与和服务器通信.
 ```js
 // 基本类型只需要判断值是否相等
 // 引用类型需要判断键值是否都相等
-function isDeepEqual(left, right) {
+function isEqual(left, right) {
     if (left === right) {
         return true;
     }
-    const isObject = (value) => value instanceof Object;
+    const isObject = value => value instanceof Object;
     const getLen = value => Object.keys(value).length;
     if (!isObject(left) || !isObject(right)) {
-        return Object.is(right);
+        return Object.is(left,right);
     } else if (getLen(left) !== getLen(right)) {
         return false;
     }
     for (let key in left) {
         if (right.hasOwnProperty(key)) {
-            if (!isDeepEqual(left[key], right[key])) {
-                return false;
-            }
+          if(!isDeepEqual(left[key], right[key])){
+            return false;
+          }
         } else {
             return false;
         }
@@ -741,7 +742,7 @@ JSON.parse将字符串生成新的对象,开辟新的栈
 
 浅拷贝实现:  
  ```js
-export function clone(target) {
+function clone(target) {
     let getType = value => Object.prototype.toString.call(value).slice(8, -1);
     let targetType = getType(target);
     if (targetType !== 'Object' || targetType !== 'Array') return target;
@@ -756,45 +757,53 @@ export function clone(target) {
 ``` 
 深拷贝实现:  
 ```js
-function copyDeep(target) {
-    let getType = value => Object.prototype.toString.call(value).slice(8, -1);
-    if (target !== null && typeof target !== 'object') return target;
-    let targetType = getType(target);
-    if (targetType === 'Date') {
-        return new Date(target.getTime());
-    } else if (targetType === 'RegExp') {
-        let newReg = new RegExp(target.source, target.flags);
-        if (target.lastIndex) {
-            newReg.lastIndex = target.lastIndex;
+function deepClone(obj) {
+    const isArray = arr => (arr instanceof Array);
+    const isObject = obj => (obj !== null && typeof obj === "object");
+    const cloneDate = (date) => (new Date(+date));
+    const cloneFn = (fn, context) => fn.bind(context);
+    const cloneReg = (reg) => {
+        let newReg = new RegExp(reg.source, reg.flags);
+        if (reg.lastIndex) {
+            newReg.lastIndex = reg.lastIndex;
         }
         return newReg;
-    } else if (targetType === 'Funciton') {
-        return targetType;
+    }
+    if (!isObject(obj)) {
+        return obj;
+    } else if (obj instanceof RegExp) {
+        return cloneReg(obj);
+    } else if (obj instanceof Date) {
+        return cloneDate(obj);
     }
     let set = new Set();
-    let cpFunc = function (value) {
-        let result = targetType === 'Array' ? [] : {};
-        for (let key in value) {
-            if (value.hasOwnProperty(key)) {
-                let currValue = value[key];
-                if (typeof currValue === 'object') {
-                    if (set.has(currValue)) {
-                        result[key] = currValue;
+    const clone = (target) => {
+        let result = isArray(target) ? [] : {};
+        for (let key in target) {
+            if (target.hasOwnProperty(key)) {
+                let element = target[key];
+                if (element instanceof Object) {
+                    const isInSet = set.has(element);
+                    if (isInSet) {
+                        result[key] = element;
                     } else {
-                        set.add(currValue);
-                        result[key] = copyDeep(currValue);
+                        if (typeof element === "function") {
+                            result[key] = cloneFn(element, result);
+                        } else {
+                            result[key] = deepClone(element);
+                        }
+                        set.add(result[key]);
                     }
                 } else {
-                    result[key] = currValue;
+                    result[key] = obj[key];
                 }
             }
         }
         return result;
     }
-    let result = cpFunc(target);
-    set.clear();
+    let cloneObj = clone(obj);
     set = null;
-    return result;
+    return cloneObj;
 }
 ```
 
