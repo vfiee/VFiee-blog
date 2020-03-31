@@ -29,6 +29,12 @@ module.exports = {
                 { text: '环境搭建', link: '/flutter/set-up/' },
             ]
         },
+        {
+            text: "计算机网络",
+            items: [
+
+            ]
+        }
     ],
     sidebar: {
         "/javascript/": [
