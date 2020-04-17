@@ -1,0 +1,47 @@
+# 操作名称
+name: 博客部署
+# 作者
+author: vyron
+# 描述
+description: 日志博客持续部署
+
+# 触发事件
+on:
+  pull:
+    branches: [master]
+    # 定时任务
+  # schedule:
+  # -cron: "*/15 * * * *"
+
+# 环境变量
+env:
+  BUILD_ENV: production
+
+# 工作流程
+jobs:
+  # test:
+  #   name: 测试代码
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: 运行测试脚本
+  #       run: echo Hello, world!
+
+  build:
+    # needs: test
+    name: 打包代码
+    runs-on: ubuntu-latest
+    steps:
+      # - uses: actions/checkout@v2
+      - name: 清除安装依赖
+        run: rm -rf dist node_modules
+        working-directory: ../../
+
+      - name: 安装最新依赖
+        run: yarn
+
+      - name: 运行打包命令
+        run: yarn build
+      # - name: 推送到远程服务器
+      # run: yarn publish
