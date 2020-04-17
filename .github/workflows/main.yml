@@ -1,13 +1,9 @@
 # 操作名称
 name: 博客部署
-# 作者
-author: vyron
-# 描述
-description: 日志博客持续部署
 
 # 触发事件
 on:
-  pull:
+  push:
     branches: [master]
     # 定时任务
   # schedule:
