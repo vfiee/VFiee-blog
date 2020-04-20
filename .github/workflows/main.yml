@@ -4,7 +4,9 @@ name: 博客部署
 # 触发事件
 on:
   push:
-    branches: [test]
+    branches: test
+  pull_request:
+    branches: test
     # 定时任务
   # schedule:
   # -cron: "*/15 * * * *"
@@ -39,10 +41,11 @@ jobs:
         run: yarn build
 
       - name: 上传文件到服务器
-        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        uses: VFiee/sftp-upload-action@v1.0
         with:
-          username: "root"
-          server: "${{secrets.BLOG_SERVER_IP}}"
+          user-name: "root"
+          server-ip: "${{secrets.BLOG_SERVER_IP}}"
           ssh_private_key: ${{secrets.SSH_PRIVATE_KEY}}
-          local_path: "./dist/*"
-          remote_path: "/var/www/blog"
+          from_path: "./dist/*"
+          to_path: "/var/www/blog"
+          port: "7777"
