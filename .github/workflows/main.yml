@@ -20,18 +20,14 @@ jobs:
       - name: 检出项目
         uses: actions/checkout@v2
 
-      - name: 安装依赖
-        run: yarn
-
-      - name: 打包项目
-        run: yarn build
+      - name: 安装依赖并打包
+        run: yarn && yarn build
 
       - name: 上传文件到服务器
-        uses: easingthemes/ssh-deploy@v2.0.7
+        uses: VFiee/sftp-upload-action@v1.3
         with:
-          REMOTE_USER: "root"
-          REMOTE_HOST: "${{secrets.BLOG_SERVER_IP}}"
-          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-          SOURCE: "./dist/*"
-          TARGET: "/var/www/blog"
-          REMOTE_PORT: "7777"
+          user-name: "root"
+          server-ip: "${{secrets.BLOG_SERVER_IP}}"
+          ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
+          from-path: "./dist/*"
+          to-path: "/var/www/blog"
