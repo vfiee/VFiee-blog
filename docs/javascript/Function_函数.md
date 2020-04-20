@@ -1,6 +1,10 @@
+---
+sidebar: "auto"
+---
+
 # 函数 Function
 
-### apply
+## apply
 ```js
 // func.apply(thisArg, [argsArray])
 // 方法调用一个具有给定this值的函数，以及作为一个数组（或类似数组对象）提供的参数。
@@ -36,7 +40,7 @@ console.log(getType(function(){}));
 
 ```
 
-### bind
+## bind
 ```js
 // function.bind(thisArg[,arg1[,arg2[, ...]]])
 // bind()方法创建一个新的函数，在bind()被调用时，这个新函数的this被bind的第一个参数指定，其余的参数将作为新函数的参数供调用时使用。
@@ -45,7 +49,7 @@ function getType(arg) {
 }
 ```
 
-### call
+## call
 ```js
 // fun.call(thisArg, arg1, arg2, ...)
 // call() 方法使用一个指定的 this 值和单独给出的一个或多个参数来调用一个函数。

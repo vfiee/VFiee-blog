@@ -1,3 +1,7 @@
+---
+sidebar: "auto"
+---
+
 # Set和Map数据结构
 
 
@@ -19,7 +23,7 @@ WeakSet 对象中存储的对象值都是被弱引用的, 如果没有其他的�
 
 
 
-### has(value)  add(value)  delete(value)  clear  
+## has(value)  add(value)  delete(value)  clear  
 > add(value) 在Set/WeakSet对象尾部添加一个元素。返回该Set对象。  
 > delete(value) 移除Set/WeakSet的中与这个值相等的元素，返回Set/WeakSet.prototype.has(value).  
 > has(value) 返回一个布尔值，表示该值在Set/WeakSet中存在与否。  
@@ -58,7 +62,7 @@ console.log(weakSet);
 
 ```
 
-### keys values  entries
+## keys values  entries
 > keys() values() entries() 返回一个新的迭代器对象，该对象包含Set对象中的按插入顺序排列的所有元素的值。  
 ```js
 let set = new Set([1,2,3,4]);
@@ -68,7 +72,7 @@ console.log([...set.values()]);
 console.log([...set.entries()]);
 ```
 
-### forEach(callbackFn(currValue[,currKey,set,thisArg]))
+## forEach(callbackFn(currValue[,currKey,set,thisArg]))
 > 按照插入顺序，为Set对象中的每一个值调用一次callBackFn。如果提供了thisArg参数，绑定thisArg为当前函数作用域。
 ```js
 let arr = [1,null,undefined,new Date(),function test(){console.log(this)},{x:12}];
@@ -105,7 +109,7 @@ Map与Object的区别
 6.Map 在涉及频繁增删键值对的场景下会有些性能优势。  
 
 
-### has(key) get(key) set(key,value) delete(key) clear
+## has(key) get(key) set(key,value) delete(key) clear
 > has(key) 返回一个布尔值，表示Map实例是否包含键对应的值。  
 > get(key) 返回键对应的值，如果不存在，则返回undefined。  
 > set(key,value) 设置Map对象中键的值。返回该Map对象。  
@@ -139,7 +143,7 @@ console.log(map);
 
 
 
-### keys values entries
+## keys values entries
 > keys() 返回一个新的 Iterator对象，按插入顺序包含了Map对象中每个元素的键   
 > values() 返回一个新的Iterator对象，按插入顺序包含了Map对象中每个元素的值  
 > entries() 返回一个新的Iterator对象，按插入顺序包含了Map对象中每个元素的 [key, value] 数组。
@@ -152,7 +156,7 @@ map.set(obj,obj2);
 console.log([...map.keys()],[...map.values()],[...map.entries()]);
 ```
 
-### forEach(callbackFn([value,key,Map][,thisArg]))
+## forEach(callbackFn([value,key,Map][,thisArg]))
 > forEach() 方法将会以插入顺序对 Map 对象中的每一个键值对执行一次参数中提供的回调函数。
 ```js
 let obj = {x:1};

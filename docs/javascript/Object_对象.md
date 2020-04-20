@@ -1,3 +1,7 @@
+---
+sidebar: "auto"
+---
+
 # 对象 Object
 
 ```js
@@ -13,7 +17,7 @@
 ```
 ![jsobj_full](~@IMAGES/jsobj_full.jpg);
 
-### assign
+## assign
 ```js
 // Object.assign(target, ...sources)
 // Object.assign() 方法用于将所有可枚举属性的值从一个或多个源对象复制到目标对象
@@ -29,7 +33,7 @@ let combineObj = Object.assign({},obj,obj2);
 // {x: 1, y: 3, z: 4}
 ```
 
-### create
+## create
 ```js
 // Object.create(proto[, propertiesObject])
 // Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__
@@ -45,7 +49,7 @@ console.log(LiMing.__proto__)
 console.log(XiaoHua.__proto__);
 
 ```
-### keys values  entries
+## keys values  entries
 ```js
 // Object.keys() 方法会返回一个由一个给定对象的自身可枚举属性组成的数组
 // Object.values()方法返回一个给定对象自身的所有可枚举属性值的数组
@@ -59,7 +63,7 @@ let kvs = Object.entries(obj);
 // [["x":1],["y":2],["z",3]]
 ```
 
-### freeze
+## freeze
 ```js
 // Object.freeze() 冻结一个对象的属性和原型.
 // 一个对象是冻结的是指它不可扩展，所有属性都是不可配置的，且所有数据属性（即没有getter或setter组件的访问器的属性）都是不可写的。
@@ -69,7 +73,7 @@ obj.x=2;// 无法设置成功
 
 ```
 
-### isFrozen
+## isFrozen
 ```js
 // Object.isFrozen()方法判断一个对象是否被冻结。
 let obj = {};
@@ -78,7 +82,7 @@ let isF = Object.isFrozen(obj);
 // isF =  true
 ```
 
-### is
+## is
 ```js
 // Object.is() 方法判断两个值是否是相同的值。
 // 判断成立的条件
@@ -107,7 +111,7 @@ Object.is(-0,-0);// true
 Object.is(NaN,0/0);// true
 ```
 
-### Object.hasOwnProperty
+## Object.hasOwnProperty
 ```js
 //  hasOwnProperty()方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性并忽略从原型链上继承的属性.
 let obj = {
@@ -123,7 +127,7 @@ obj.hasOwnProperty('toString'); // false
 
 ```
 
-### Object.isPrototypeOf
+## Object.isPrototypeOf
 ```js
 // isPrototypeOf() 方法用于测试一个对象是否存在于另一个对象的原型链上。
 function Obj1(){}
@@ -142,7 +146,7 @@ Object.prototype.isPrototypeOf(newObj);
 
 ```
 
-### Object.toString
+## Object.toString
 ```js
 // toString() 方法返回一个表示该对象的字符串。
 let obj = {};
@@ -160,7 +164,7 @@ toString.apply(undefined);// "[object Undefined]"
 toString.apply(new Object);// "[object Object]"
 
 ```
-### Object.valueOf
+## Object.valueOf
 不同类型对象的valueOf()方法的返回值
 | 对象|返回值|
 | --------- | -----|

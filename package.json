@@ -7,17 +7,18 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "npx vuepress dev docs",
-    "build": "npx vuepress build docs"
+    "dev": "yarn script && vuepress dev docs",
+    "build": "yarn script && vuepress build docs",
+    "script": "node script/index.js"
   },
   "devDependencies": {
-    "npx": "^10.2.0",
-    "vuepress": "^1.2.0"
+    "vuepress": "^1.4.1"
   },
   "dependencies": {
-    "@vuepress/plugin-active-header-links": "^1.2.0",
-    "@vuepress/plugin-back-to-top": "^1.2.0",
-    "@vuepress/plugin-nprogress": "^1.2.0",
-    "vuepress-plugin-container": "^2.1.0"
+    "@vuepress/plugin-active-header-links": "^1.4.1",
+    "@vuepress/plugin-back-to-top": "^1.4.1",
+    "@vuepress/plugin-nprogress": "^1.4.1",
+    "lodash": "^4.17.15",
+    "vuepress-plugin-container": "^2.1.3"
   }
 }
