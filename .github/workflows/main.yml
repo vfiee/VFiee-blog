@@ -38,7 +38,7 @@ jobs:
         run: yarn build
 
       - name: 上传文件到服务器
-        uses: wlixcc/SFTP-Deploy-Action@v1.0
+      - uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
           username: "root"
           server: "${{secrets.BLOG_SERVER_IP}}"
