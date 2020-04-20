@@ -4,6 +4,7 @@ name: 博客部署
 # 触发事件
 on:
   push:
+    branch: [test]
     # 定时任务
   # schedule:
   # -cron: "*/15 * * * *"
