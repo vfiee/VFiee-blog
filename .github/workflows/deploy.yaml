@@ -7,7 +7,7 @@ description: 日志博客持续部署
 
 # 触发事件
 on:
-  pull:
+  push:
     branches: [master]
     # 定时任务
   # schedule:
@@ -40,8 +40,10 @@ jobs:
 
       - name: 安装最新依赖
         run: yarn
+        work-directory: ../../
 
       - name: 运行打包命令
         run: yarn build
+        work-directory: ../../
       # - name: 推送到远程服务器
       # run: yarn publish
