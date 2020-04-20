@@ -7,11 +7,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "yarn script && vuepress dev docs",
-    "build": "yarn script && vuepress build docs",
+    "dev": "yarn script && npx vuepress dev docs",
+    "build": "yarn script && npx vuepress build docs",
     "script": "node script/index.js"
   },
   "devDependencies": {
+    "npx": "^10.2.2",
     "vuepress": "^1.4.1"
   },
   "dependencies": {
