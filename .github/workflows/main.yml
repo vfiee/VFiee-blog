@@ -41,11 +41,11 @@ jobs:
         run: yarn build
 
       - name: 上传文件到服务器
-        uses: VFiee/sftp-upload-action
+        uses: VFiee/sftp-upload-action@v1
         with:
           user-name: "root"
           server-ip: "${{secrets.BLOG_SERVER_IP}}"
-          ssh_private_key: ${{secrets.SSH_PRIVATE_KEY}}
-          from_path: "./dist/*"
-          to_path: "/var/www/blog"
+          ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
+          from-path: "./dist/*"
+          to-path: "/var/www/blog"
           port: "7777"
