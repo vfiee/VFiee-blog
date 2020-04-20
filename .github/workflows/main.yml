@@ -4,7 +4,7 @@ name: 博客部署
 # 触发事件
 on:
   push:
-    branches: [test]
+    branches: master
     # 定时任务
   # schedule:
   # -cron: "*/15 * * * *"
@@ -12,7 +12,7 @@ on:
 # 环境变量
 env:
   BUILD_ENV: production
-  NODE_ENV: production 
+  NODE_ENV: production
 
 # 工作流程
 jobs:
@@ -29,14 +29,21 @@ jobs:
     name: 打包代码
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: 清除安装依赖
-        run: rm -rf dist node_modules
+      - name: 检出项目
+        uses: actions/checkout@v2
 
-      - name: 安装最新依赖
+      - name: 安装依赖
         run: yarn
 
-      - name: 运行打包命令
+      - name: 打包项目
         run: yarn build
-      # - name: 推送到远程服务器
-      # run: yarn publish
+
+      - name: 上传文件到服务器
+        uses: VFiee/sftp-upload-action@v1.1
+        with:
+          user-name: "root"
+          server-ip: "${{secrets.BLOG_SERVER_IP}}"
+          ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
+          from-path: "./dist/*"
+          to-path: "/var/www/blog"
+          port: "7777"
