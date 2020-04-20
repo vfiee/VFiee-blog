@@ -12,6 +12,7 @@ on:
 # 环境变量
 env:
   BUILD_ENV: production
+  NODE_ENV: production 
 
 # 工作流程
 jobs:
@@ -25,19 +26,20 @@ jobs:
   #       run: echo Hello, world!
 
   build:
-    # needs: test
     name: 打包代码
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: 清除安装依赖
         run: rm -rf dist node_modules
         working-directory: ../../
 
       - name: 安装最新依赖
         run: yarn
+        working-directory: ../../
 
       - name: 运行打包命令
         run: yarn build
+        working-directory: ../../
       # - name: 推送到远程服务器
       # run: yarn publish
