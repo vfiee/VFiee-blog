@@ -19,13 +19,13 @@ footer:
 > 关注**前端趋势**  
 > 了解**后端发展**
 
-<center>
+<!-- <center>
 <a
   target="_blank"
   href="http://beian.miit.gov.cn"
   style="color:#999;cursor:pointer;font-weight:normal;"
   >豫ICP备19043979</a>
-</center>
+</center> -->
 
 <!--
 <div style="
